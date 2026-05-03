@@ -1,0 +1,2143 @@
+openapi: 3.1.0
+info:
+  title: Api
+  version: 0.1.0
+  description: SOCIFY API specification
+servers:
+  - url: /api
+    description: Base API path
+tags:
+  - name: health
+  - name: auth
+  - name: workspaces
+  - name: social-accounts
+  - name: posts
+  - name: inbox
+  - name: analytics
+  - name: leads
+  - name: campaigns
+  - name: listening
+  - name: automations
+  - name: notifications
+  - name: dashboard
+
+paths:
+  /healthz:
+    get:
+      operationId: healthCheck
+      tags: [health]
+      summary: Health check
+      responses:
+        "200":
+          description: Healthy
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HealthStatus"
+
+  # ─── AUTH ───────────────────────────────────────────────────────────────────
+  /auth/register:
+    post:
+      operationId: register
+      tags: [auth]
+      summary: Register a new user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/RegisterBody"
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AuthResponse"
+
+  /auth/login:
+    post:
+      operationId: login
+      tags: [auth]
+      summary: Login
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/LoginBody"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AuthResponse"
+
+  /auth/logout:
+    post:
+      operationId: logout
+      tags: [auth]
+      summary: Logout
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MessageResponse"
+
+  /auth/me:
+    get:
+      operationId: getMe
+      tags: [auth]
+      summary: Get current user
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+
+  # ─── WORKSPACES ─────────────────────────────────────────────────────────────
+  /workspaces:
+    get:
+      operationId: listWorkspaces
+      tags: [workspaces]
+      summary: List workspaces for current user
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Workspace"
+    post:
+      operationId: createWorkspace
+      tags: [workspaces]
+      summary: Create workspace
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateWorkspaceBody"
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Workspace"
+
+  /workspaces/{workspaceId}:
+    get:
+      operationId: getWorkspace
+      tags: [workspaces]
+      summary: Get workspace
+      parameters:
+        - name: workspaceId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Workspace"
+    patch:
+      operationId: updateWorkspace
+      tags: [workspaces]
+      summary: Update workspace
+      parameters:
+        - name: workspaceId
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateWorkspaceBody"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Workspace"
+
+  # ─── SOCIAL ACCOUNTS ────────────────────────────────────────────────────────
+  /social-accounts:
+    get:
+      operationId: listSocialAccounts
+      tags: [social-accounts]
+      summary: List social accounts
+      parameters:
+        - name: workspaceId
+          in: query
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/SocialAccount"
+    post:
+      operationId: createSocialAccount
+      tags: [social-accounts]
+      summary: Connect a social account
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateSocialAccountBody"
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SocialAccount"
+
+  /social-accounts/{accountId}:
+    delete:
+      operationId: deleteSocialAccount
+      tags: [social-accounts]
+      summary: Disconnect social account
+      parameters:
+        - name: accountId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MessageResponse"
+
+  # ─── POSTS ──────────────────────────────────────────────────────────────────
+  /posts:
+    get:
+      operationId: listPosts
+      tags: [posts]
+      summary: List posts
+      parameters:
+        - name: workspaceId
+          in: query
+          required: true
+          schema:
+            type: integer
+        - name: status
+          in: query
+          schema:
+            type: string
+        - name: platform
+          in: query
+          schema:
+            type: string
+        - name: page
+          in: query
+          schema:
+            type: integer
+        - name: limit
+          in: query
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PostListResponse"
+    post:
+      operationId: createPost
+      tags: [posts]
+      summary: Create post
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreatePostBody"
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Post"
+
+  /posts/{postId}:
+    get:
+      operationId: getPost
+      tags: [posts]
+      summary: Get post
+      parameters:
+        - name: postId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Post"
+    patch:
+      operationId: updatePost
+      tags: [posts]
+      summary: Update post
+      parameters:
+        - name: postId
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdatePostBody"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Post"
+    delete:
+      operationId: deletePost
+      tags: [posts]
+      summary: Delete post
+      parameters:
+        - name: postId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MessageResponse"
+
+  /posts/{postId}/approve:
+    post:
+      operationId: approvePost
+      tags: [posts]
+      summary: Approve post
+      parameters:
+        - name: postId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Post"
+
+  /posts/calendar:
+    get:
+      operationId: getCalendarPosts
+      tags: [posts]
+      summary: Get posts for calendar view
+      parameters:
+        - name: workspaceId
+          in: query
+          required: true
+          schema:
+            type: integer
+        - name: startDate
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: endDate
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Post"
+
+  # ─── INBOX ──────────────────────────────────────────────────────────────────
+  /inbox:
+    get:
+      operationId: listInboxMessages
+      tags: [inbox]
+      summary: List inbox messages
+      parameters:
+        - name: workspaceId
+          in: query
+          required: true
+          schema:
+            type: integer
+        - name: status
+          in: query
+          schema:
+            type: string
+        - name: platform
+          in: query
+          schema:
+            type: string
+        - name: sentiment
+          in: query
+          schema:
+            type: string
+        - name: page
+          in: query
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InboxListResponse"
+
+  /inbox/{messageId}:
+    get:
+      operationId: getInboxMessage
+      tags: [inbox]
+      summary: Get inbox message
+      parameters:
+        - name: messageId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InboxMessage"
+    patch:
+      operationId: updateInboxMessage
+      tags: [inbox]
+      summary: Update inbox message status/assignment
+      parameters:
+        - name: messageId
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateInboxMessageBody"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InboxMessage"
+
+  /inbox/{messageId}/reply:
+    post:
+      operationId: replyToMessage
+      tags: [inbox]
+      summary: Reply to inbox message
+      parameters:
+        - name: messageId
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ReplyBody"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MessageResponse"
+
+  /inbox/stats:
+    get:
+      operationId: getInboxStats
+      tags: [inbox]
+      summary: Get inbox stats summary
+      parameters:
+        - name: workspaceId
+          in: query
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InboxStats"
+
+  # ─── ANALYTICS ──────────────────────────────────────────────────────────────
+  /analytics/overview:
+    get:
+      operationId: getAnalyticsOverview
+      tags: [analytics]
+      summary: Get analytics overview metrics
+      parameters:
+        - name: workspaceId
+          in: query
+          required: true
+          schema:
+            type: integer
+        - name: period
+          in: query
+          schema:
+            type: string
+            enum: [7d, 30d, 90d]
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AnalyticsOverview"
+
+  /analytics/engagement:
+    get:
+      operationId: getEngagementTimeline
+      tags: [analytics]
+      summary: Get engagement timeline data
+      parameters:
+        - name: workspaceId
+          in: query
+          required: true
+          schema:
+            type: integer
+        - name: period
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/TimelinePoint"
+
+  /analytics/top-posts:
+    get:
+      operationId: getTopPosts
+      tags: [analytics]
+      summary: Get top performing posts
+      parameters:
+        - name: workspaceId
+          in: query
+          required: true
+          schema:
+            type: integer
+        - name: limit
+          in: query
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Post"
+
+  /analytics/platform-breakdown:
+    get:
+      operationId: getPlatformBreakdown
+      tags: [analytics]
+      summary: Get per-platform analytics breakdown
+      parameters:
+        - name: workspaceId
+          in: query
+          required: true
+          schema:
+            type: integer
+        - name: period
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/PlatformStat"
+
+  # ─── LEADS / CRM ────────────────────────────────────────────────────────────
+  /leads:
+    get:
+      operationId: listLeads
+      tags: [leads]
+      summary: List leads
+      parameters:
+        - name: workspaceId
+          in: query
+          required: true
+          schema:
+            type: integer
+        - name: stage
+          in: query
+          schema:
+            type: string
+        - name: assignedTo
+          in: query
+          schema:
+            type: integer
+        - name: search
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Lead"
+    post:
+      operationId: createLead
+      tags: [leads]
+      summary: Create lead
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateLeadBody"
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Lead"
+
+  /leads/{leadId}:
+    get:
+      operationId: getLead
+      tags: [leads]
+      summary: Get lead
+      parameters:
+        - name: leadId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Lead"
+    patch:
+      operationId: updateLead
+      tags: [leads]
+      summary: Update lead
+      parameters:
+        - name: leadId
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateLeadBody"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Lead"
+    delete:
+      operationId: deleteLead
+      tags: [leads]
+      summary: Delete lead
+      parameters:
+        - name: leadId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MessageResponse"
+
+  /leads/pipeline:
+    get:
+      operationId: getLeadPipeline
+      tags: [leads]
+      summary: Get lead counts and values per pipeline stage
+      parameters:
+        - name: workspaceId
+          in: query
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/PipelineStage"
+
+  # ─── CAMPAIGNS ──────────────────────────────────────────────────────────────
+  /campaigns:
+    get:
+      operationId: listCampaigns
+      tags: [campaigns]
+      summary: List campaigns
+      parameters:
+        - name: workspaceId
+          in: query
+          required: true
+          schema:
+            type: integer
+        - name: status
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Campaign"
+    post:
+      operationId: createCampaign
+      tags: [campaigns]
+      summary: Create campaign
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateCampaignBody"
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Campaign"
+
+  /campaigns/{campaignId}:
+    get:
+      operationId: getCampaign
+      tags: [campaigns]
+      summary: Get campaign
+      parameters:
+        - name: campaignId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Campaign"
+    patch:
+      operationId: updateCampaign
+      tags: [campaigns]
+      summary: Update campaign
+      parameters:
+        - name: campaignId
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateCampaignBody"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Campaign"
+    delete:
+      operationId: deleteCampaign
+      tags: [campaigns]
+      summary: Delete campaign
+      parameters:
+        - name: campaignId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MessageResponse"
+
+  # ─── LISTENING ──────────────────────────────────────────────────────────────
+  /listening/keywords:
+    get:
+      operationId: listKeywords
+      tags: [listening]
+      summary: List listening keywords
+      parameters:
+        - name: workspaceId
+          in: query
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/ListeningKeyword"
+    post:
+      operationId: createKeyword
+      tags: [listening]
+      summary: Create listening keyword
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateKeywordBody"
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ListeningKeyword"
+
+  /listening/mentions:
+    get:
+      operationId: listMentions
+      tags: [listening]
+      summary: List listening mentions
+      parameters:
+        - name: workspaceId
+          in: query
+          required: true
+          schema:
+            type: integer
+        - name: keywordId
+          in: query
+          schema:
+            type: integer
+        - name: sentiment
+          in: query
+          schema:
+            type: string
+        - name: platform
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/ListeningMention"
+
+  /listening/stats:
+    get:
+      operationId: getListeningStats
+      tags: [listening]
+      summary: Get social listening stats summary
+      parameters:
+        - name: workspaceId
+          in: query
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ListeningStats"
+
+  # ─── AUTOMATIONS ────────────────────────────────────────────────────────────
+  /automations:
+    get:
+      operationId: listAutomations
+      tags: [automations]
+      summary: List automations
+      parameters:
+        - name: workspaceId
+          in: query
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Automation"
+    post:
+      operationId: createAutomation
+      tags: [automations]
+      summary: Create automation
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateAutomationBody"
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Automation"
+
+  /automations/{automationId}:
+    patch:
+      operationId: updateAutomation
+      tags: [automations]
+      summary: Update automation
+      parameters:
+        - name: automationId
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateAutomationBody"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Automation"
+    delete:
+      operationId: deleteAutomation
+      tags: [automations]
+      summary: Delete automation
+      parameters:
+        - name: automationId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MessageResponse"
+
+  # ─── NOTIFICATIONS ──────────────────────────────────────────────────────────
+  /notifications:
+    get:
+      operationId: listNotifications
+      tags: [notifications]
+      summary: List notifications
+      parameters:
+        - name: workspaceId
+          in: query
+          required: true
+          schema:
+            type: integer
+        - name: unreadOnly
+          in: query
+          schema:
+            type: boolean
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Notification"
+
+  /notifications/{notificationId}/read:
+    post:
+      operationId: markNotificationRead
+      tags: [notifications]
+      summary: Mark notification as read
+      parameters:
+        - name: notificationId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MessageResponse"
+
+  /notifications/read-all:
+    post:
+      operationId: markAllNotificationsRead
+      tags: [notifications]
+      summary: Mark all notifications as read
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                workspaceId:
+                  type: integer
+              required: [workspaceId]
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MessageResponse"
+
+  # ─── DASHBOARD ──────────────────────────────────────────────────────────────
+  /dashboard/summary:
+    get:
+      operationId: getDashboardSummary
+      tags: [dashboard]
+      summary: Get dashboard summary stats
+      parameters:
+        - name: workspaceId
+          in: query
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DashboardSummary"
+
+  /dashboard/activity:
+    get:
+      operationId: getRecentActivity
+      tags: [dashboard]
+      summary: Get recent activity feed
+      parameters:
+        - name: workspaceId
+          in: query
+          required: true
+          schema:
+            type: integer
+        - name: limit
+          in: query
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/ActivityItem"
+
+  /dashboard/upcoming-posts:
+    get:
+      operationId: getUpcomingPosts
+      tags: [dashboard]
+      summary: Get next scheduled posts
+      parameters:
+        - name: workspaceId
+          in: query
+          required: true
+          schema:
+            type: integer
+        - name: limit
+          in: query
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Post"
+
+  # ─── AI ─────────────────────────────────────────────────────────────────────
+  /ai/generate-caption:
+    post:
+      operationId: generateCaption
+      tags: [ai]
+      summary: AI generate caption
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/GenerateCaptionBody"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GenerateCaptionResponse"
+
+  /ai/suggest-hashtags:
+    post:
+      operationId: suggestHashtags
+      tags: [ai]
+      summary: AI suggest hashtags
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SuggestHashtagsBody"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SuggestHashtagsResponse"
+
+components:
+  schemas:
+    HealthStatus:
+      type: object
+      properties:
+        status:
+          type: string
+      required: [status]
+
+    MessageResponse:
+      type: object
+      properties:
+        message:
+          type: string
+      required: [message]
+
+    # ── Auth ──
+    RegisterBody:
+      type: object
+      properties:
+        name:
+          type: string
+        email:
+          type: string
+        password:
+          type: string
+      required: [name, email, password]
+
+    LoginBody:
+      type: object
+      properties:
+        email:
+          type: string
+        password:
+          type: string
+      required: [email, password]
+
+    AuthResponse:
+      type: object
+      properties:
+        token:
+          type: string
+        user:
+          $ref: "#/components/schemas/User"
+      required: [token, user]
+
+    User:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        email:
+          type: string
+        avatar:
+          type: string
+          nullable: true
+        role:
+          type: string
+          enum: [superadmin, user]
+        currentWorkspaceId:
+          type: integer
+          nullable: true
+        createdAt:
+          type: string
+      required: [id, name, email, role, createdAt]
+
+    # ── Workspace ──
+    Workspace:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        slug:
+          type: string
+        logo:
+          type: string
+          nullable: true
+        plan:
+          type: string
+          enum: [free, pro, agency, enterprise]
+        membersCount:
+          type: integer
+        socialAccountsCount:
+          type: integer
+        postsThisMonth:
+          type: integer
+        createdAt:
+          type: string
+      required: [id, name, slug, plan, membersCount, socialAccountsCount, postsThisMonth, createdAt]
+
+    CreateWorkspaceBody:
+      type: object
+      properties:
+        name:
+          type: string
+        slug:
+          type: string
+      required: [name, slug]
+
+    UpdateWorkspaceBody:
+      type: object
+      properties:
+        name:
+          type: string
+        logo:
+          type: string
+
+    # ── SocialAccount ──
+    SocialAccount:
+      type: object
+      properties:
+        id:
+          type: integer
+        workspaceId:
+          type: integer
+        platform:
+          type: string
+          enum: [facebook, instagram, twitter, linkedin, tiktok, youtube, pinterest, threads]
+        accountType:
+          type: string
+          enum: [page, profile, business]
+        name:
+          type: string
+        handle:
+          type: string
+        avatar:
+          type: string
+          nullable: true
+        isActive:
+          type: boolean
+        followers:
+          type: integer
+        following:
+          type: integer
+        avgEngagementRate:
+          type: number
+          nullable: true
+        lastSyncAt:
+          type: string
+          nullable: true
+        connectedAt:
+          type: string
+      required: [id, workspaceId, platform, accountType, name, handle, isActive, followers, following, connectedAt]
+
+    CreateSocialAccountBody:
+      type: object
+      properties:
+        workspaceId:
+          type: integer
+        platform:
+          type: string
+        accountType:
+          type: string
+        name:
+          type: string
+        handle:
+          type: string
+        followers:
+          type: integer
+      required: [workspaceId, platform, accountType, name, handle, followers]
+
+    # ── Post ──
+    Post:
+      type: object
+      properties:
+        id:
+          type: integer
+        workspaceId:
+          type: integer
+        authorId:
+          type: integer
+        authorName:
+          type: string
+        caption:
+          type: string
+        mediaUrls:
+          type: array
+          items:
+            type: string
+        mediaType:
+          type: string
+          enum: [image, video, carousel, text, reel, story]
+        platforms:
+          type: array
+          items:
+            type: string
+        hashtags:
+          type: array
+          items:
+            type: string
+        status:
+          type: string
+          enum: [draft, pending_approval, revision_requested, approved, scheduled, publishing, published, failed, archived]
+        scheduledAt:
+          type: string
+          nullable: true
+        publishedAt:
+          type: string
+          nullable: true
+        totalReach:
+          type: integer
+          nullable: true
+        totalEngagement:
+          type: integer
+          nullable: true
+        campaignId:
+          type: integer
+          nullable: true
+        aiGenerated:
+          type: boolean
+        createdAt:
+          type: string
+      required: [id, workspaceId, authorId, authorName, caption, mediaUrls, mediaType, platforms, hashtags, status, aiGenerated, createdAt]
+
+    PostListResponse:
+      type: object
+      properties:
+        posts:
+          type: array
+          items:
+            $ref: "#/components/schemas/Post"
+        total:
+          type: integer
+        page:
+          type: integer
+        totalPages:
+          type: integer
+      required: [posts, total, page, totalPages]
+
+    CreatePostBody:
+      type: object
+      properties:
+        workspaceId:
+          type: integer
+        caption:
+          type: string
+        mediaUrls:
+          type: array
+          items:
+            type: string
+        mediaType:
+          type: string
+        platforms:
+          type: array
+          items:
+            type: string
+        hashtags:
+          type: array
+          items:
+            type: string
+        scheduledAt:
+          type: string
+          nullable: true
+        status:
+          type: string
+        campaignId:
+          type: integer
+          nullable: true
+      required: [workspaceId, caption, mediaType, platforms]
+
+    UpdatePostBody:
+      type: object
+      properties:
+        caption:
+          type: string
+        status:
+          type: string
+        scheduledAt:
+          type: string
+          nullable: true
+        hashtags:
+          type: array
+          items:
+            type: string
+
+    # ── Inbox ──
+    InboxMessage:
+      type: object
+      properties:
+        id:
+          type: integer
+        workspaceId:
+          type: integer
+        platform:
+          type: string
+        type:
+          type: string
+          enum: [dm, comment, mention, review, reply]
+        senderName:
+          type: string
+        senderHandle:
+          type: string
+        senderAvatar:
+          type: string
+          nullable: true
+        content:
+          type: string
+        sentiment:
+          type: string
+          enum: [positive, neutral, negative, mixed]
+        sentimentScore:
+          type: number
+        status:
+          type: string
+          enum: [unread, read, in_progress, done, snoozed, spam]
+        isStarred:
+          type: boolean
+        assignedToId:
+          type: integer
+          nullable: true
+        assignedToName:
+          type: string
+          nullable: true
+        receivedAt:
+          type: string
+        repliedAt:
+          type: string
+          nullable: true
+      required: [id, workspaceId, platform, type, senderName, senderHandle, content, sentiment, sentimentScore, status, isStarred, receivedAt]
+
+    InboxListResponse:
+      type: object
+      properties:
+        messages:
+          type: array
+          items:
+            $ref: "#/components/schemas/InboxMessage"
+        total:
+          type: integer
+        unreadCount:
+          type: integer
+      required: [messages, total, unreadCount]
+
+    UpdateInboxMessageBody:
+      type: object
+      properties:
+        status:
+          type: string
+        isStarred:
+          type: boolean
+        assignedToId:
+          type: integer
+          nullable: true
+
+    ReplyBody:
+      type: object
+      properties:
+        content:
+          type: string
+      required: [content]
+
+    InboxStats:
+      type: object
+      properties:
+        total:
+          type: integer
+        unread:
+          type: integer
+        inProgress:
+          type: integer
+        done:
+          type: integer
+        positive:
+          type: integer
+        neutral:
+          type: integer
+        negative:
+          type: integer
+        avgResponseTime:
+          type: number
+      required: [total, unread, inProgress, done, positive, neutral, negative, avgResponseTime]
+
+    # ── Analytics ──
+    AnalyticsOverview:
+      type: object
+      properties:
+        totalFollowers:
+          type: integer
+        followerGrowth:
+          type: number
+        totalReach:
+          type: integer
+        reachGrowth:
+          type: number
+        totalEngagement:
+          type: integer
+        engagementGrowth:
+          type: number
+        totalPosts:
+          type: integer
+        postsGrowth:
+          type: number
+        avgEngagementRate:
+          type: number
+        clickThrough:
+          type: number
+      required: [totalFollowers, followerGrowth, totalReach, reachGrowth, totalEngagement, engagementGrowth, totalPosts, postsGrowth, avgEngagementRate, clickThrough]
+
+    TimelinePoint:
+      type: object
+      properties:
+        date:
+          type: string
+        reach:
+          type: integer
+        engagement:
+          type: integer
+        followers:
+          type: integer
+        impressions:
+          type: integer
+      required: [date, reach, engagement, followers, impressions]
+
+    PlatformStat:
+      type: object
+      properties:
+        platform:
+          type: string
+        followers:
+          type: integer
+        reach:
+          type: integer
+        engagement:
+          type: integer
+        posts:
+          type: integer
+        engagementRate:
+          type: number
+      required: [platform, followers, reach, engagement, posts, engagementRate]
+
+    # ── Lead ──
+    Lead:
+      type: object
+      properties:
+        id:
+          type: integer
+        workspaceId:
+          type: integer
+        name:
+          type: string
+        email:
+          type: string
+          nullable: true
+        phone:
+          type: string
+          nullable: true
+        company:
+          type: string
+          nullable: true
+        position:
+          type: string
+          nullable: true
+        avatar:
+          type: string
+          nullable: true
+        stage:
+          type: string
+          enum: [new, contacted, qualified, proposal, negotiation, won, lost]
+        score:
+          type: integer
+        source:
+          type: string
+          enum: [manual, inbox, form, csv_import, campaign]
+        assignedToId:
+          type: integer
+          nullable: true
+        assignedToName:
+          type: string
+          nullable: true
+        tags:
+          type: array
+          items:
+            type: string
+        notes:
+          type: string
+          nullable: true
+        estimatedValue:
+          type: number
+          nullable: true
+        nextFollowUpDate:
+          type: string
+          nullable: true
+        createdAt:
+          type: string
+      required: [id, workspaceId, name, stage, score, source, tags, createdAt]
+
+    CreateLeadBody:
+      type: object
+      properties:
+        workspaceId:
+          type: integer
+        name:
+          type: string
+        email:
+          type: string
+        phone:
+          type: string
+        company:
+          type: string
+        position:
+          type: string
+        stage:
+          type: string
+        source:
+          type: string
+        tags:
+          type: array
+          items:
+            type: string
+        estimatedValue:
+          type: number
+        notes:
+          type: string
+      required: [workspaceId, name]
+
+    UpdateLeadBody:
+      type: object
+      properties:
+        name:
+          type: string
+        email:
+          type: string
+        phone:
+          type: string
+        company:
+          type: string
+        stage:
+          type: string
+        score:
+          type: integer
+        notes:
+          type: string
+        estimatedValue:
+          type: number
+        nextFollowUpDate:
+          type: string
+        tags:
+          type: array
+          items:
+            type: string
+
+    PipelineStage:
+      type: object
+      properties:
+        stage:
+          type: string
+        count:
+          type: integer
+        totalValue:
+          type: number
+      required: [stage, count, totalValue]
+
+    # ── Campaign ──
+    Campaign:
+      type: object
+      properties:
+        id:
+          type: integer
+        workspaceId:
+          type: integer
+        name:
+          type: string
+        description:
+          type: string
+          nullable: true
+        objective:
+          type: string
+          enum: [awareness, engagement, leads, sales, traffic]
+        status:
+          type: string
+          enum: [draft, active, paused, completed, archived]
+        startDate:
+          type: string
+          nullable: true
+        endDate:
+          type: string
+          nullable: true
+        budget:
+          type: number
+          nullable: true
+        currency:
+          type: string
+          nullable: true
+        targetPlatforms:
+          type: array
+          items:
+            type: string
+        postsCount:
+          type: integer
+        leadsCount:
+          type: integer
+        totalReach:
+          type: integer
+        totalEngagement:
+          type: integer
+        roi:
+          type: number
+          nullable: true
+        color:
+          type: string
+          nullable: true
+        tags:
+          type: array
+          items:
+            type: string
+        createdAt:
+          type: string
+      required: [id, workspaceId, name, objective, status, targetPlatforms, postsCount, leadsCount, totalReach, totalEngagement, tags, createdAt]
+
+    CreateCampaignBody:
+      type: object
+      properties:
+        workspaceId:
+          type: integer
+        name:
+          type: string
+        description:
+          type: string
+        objective:
+          type: string
+        startDate:
+          type: string
+        endDate:
+          type: string
+        budget:
+          type: number
+        currency:
+          type: string
+        targetPlatforms:
+          type: array
+          items:
+            type: string
+        color:
+          type: string
+        tags:
+          type: array
+          items:
+            type: string
+      required: [workspaceId, name, objective]
+
+    UpdateCampaignBody:
+      type: object
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        status:
+          type: string
+        startDate:
+          type: string
+        endDate:
+          type: string
+        budget:
+          type: number
+        targetPlatforms:
+          type: array
+          items:
+            type: string
+
+    # ── Listening ──
+    ListeningKeyword:
+      type: object
+      properties:
+        id:
+          type: integer
+        workspaceId:
+          type: integer
+        keyword:
+          type: string
+        platforms:
+          type: array
+          items:
+            type: string
+        isActive:
+          type: boolean
+        mentionsCount:
+          type: integer
+        lastMentionAt:
+          type: string
+          nullable: true
+        createdAt:
+          type: string
+      required: [id, workspaceId, keyword, platforms, isActive, mentionsCount, createdAt]
+
+    CreateKeywordBody:
+      type: object
+      properties:
+        workspaceId:
+          type: integer
+        keyword:
+          type: string
+        platforms:
+          type: array
+          items:
+            type: string
+      required: [workspaceId, keyword, platforms]
+
+    ListeningMention:
+      type: object
+      properties:
+        id:
+          type: integer
+        workspaceId:
+          type: integer
+        keywordId:
+          type: integer
+        keyword:
+          type: string
+        platform:
+          type: string
+        authorName:
+          type: string
+        authorHandle:
+          type: string
+        authorAvatar:
+          type: string
+          nullable: true
+        authorFollowers:
+          type: integer
+        content:
+          type: string
+        url:
+          type: string
+          nullable: true
+        sentiment:
+          type: string
+          enum: [positive, neutral, negative, mixed]
+        sentimentScore:
+          type: number
+        likes:
+          type: integer
+        shares:
+          type: integer
+        comments:
+          type: integer
+        reach:
+          type: integer
+        isSpike:
+          type: boolean
+        publishedAt:
+          type: string
+      required: [id, workspaceId, keywordId, keyword, platform, authorName, authorHandle, authorFollowers, content, sentiment, sentimentScore, likes, shares, comments, reach, isSpike, publishedAt]
+
+    ListeningStats:
+      type: object
+      properties:
+        totalMentions:
+          type: integer
+        mentionsGrowth:
+          type: number
+        positivePercent:
+          type: number
+        negativePercent:
+          type: number
+        neutralPercent:
+          type: number
+        topPlatform:
+          type: string
+        avgReachPerMention:
+          type: number
+        spikeAlerts:
+          type: integer
+      required: [totalMentions, mentionsGrowth, positivePercent, negativePercent, neutralPercent, topPlatform, avgReachPerMention, spikeAlerts]
+
+    # ── Automation ──
+    Automation:
+      type: object
+      properties:
+        id:
+          type: integer
+        workspaceId:
+          type: integer
+        name:
+          type: string
+        description:
+          type: string
+          nullable: true
+        isActive:
+          type: boolean
+        triggerType:
+          type: string
+        actionTypes:
+          type: array
+          items:
+            type: string
+        runCount:
+          type: integer
+        lastRunAt:
+          type: string
+          nullable: true
+        createdAt:
+          type: string
+      required: [id, workspaceId, name, isActive, triggerType, actionTypes, runCount, createdAt]
+
+    CreateAutomationBody:
+      type: object
+      properties:
+        workspaceId:
+          type: integer
+        name:
+          type: string
+        description:
+          type: string
+        triggerType:
+          type: string
+        actionTypes:
+          type: array
+          items:
+            type: string
+      required: [workspaceId, name, triggerType, actionTypes]
+
+    UpdateAutomationBody:
+      type: object
+      properties:
+        name:
+          type: string
+        isActive:
+          type: boolean
+        description:
+          type: string
+
+    # ── Notification ──
+    Notification:
+      type: object
+      properties:
+        id:
+          type: integer
+        workspaceId:
+          type: integer
+        userId:
+          type: integer
+        type:
+          type: string
+        title:
+          type: string
+        message:
+          type: string
+        isRead:
+          type: boolean
+        link:
+          type: string
+          nullable: true
+        createdAt:
+          type: string
+      required: [id, workspaceId, userId, type, title, message, isRead, createdAt]
+
+    # ── Dashboard ──
+    DashboardSummary:
+      type: object
+      properties:
+        totalFollowers:
+          type: integer
+        followerGrowth:
+          type: number
+        scheduledPosts:
+          type: integer
+        publishedPosts:
+          type: integer
+        unreadMessages:
+          type: integer
+        activeCampaigns:
+          type: integer
+        openLeads:
+          type: integer
+        mentionsToday:
+          type: integer
+        engagementRate:
+          type: number
+        reachThisWeek:
+          type: integer
+      required: [totalFollowers, followerGrowth, scheduledPosts, publishedPosts, unreadMessages, activeCampaigns, openLeads, mentionsToday, engagementRate, reachThisWeek]
+
+    ActivityItem:
+      type: object
+      properties:
+        id:
+          type: integer
+        type:
+          type: string
+        title:
+          type: string
+        description:
+          type: string
+        actorName:
+          type: string
+        actorAvatar:
+          type: string
+          nullable: true
+        platform:
+          type: string
+          nullable: true
+        createdAt:
+          type: string
+      required: [id, type, title, description, actorName, createdAt]
+
+    # ── AI ──
+    GenerateCaptionBody:
+      type: object
+      properties:
+        topic:
+          type: string
+        platform:
+          type: string
+        tone:
+          type: string
+        includeHashtags:
+          type: boolean
+      required: [topic, platform, tone]
+
+    GenerateCaptionResponse:
+      type: object
+      properties:
+        caption:
+          type: string
+        hashtags:
+          type: array
+          items:
+            type: string
+      required: [caption, hashtags]
+
+    SuggestHashtagsBody:
+      type: object
+      properties:
+        caption:
+          type: string
+        platform:
+          type: string
+      required: [caption, platform]
+
+    SuggestHashtagsResponse:
+      type: object
+      properties:
+        hashtags:
+          type: array
+          items:
+            type: string
+      required: [hashtags]

@@ -1,0 +1,40 @@
+import { Router, type IRouter } from "express";
+import healthRouter from "./health";
+import authRouter from "./auth";
+import workspacesRouter from "./workspaces";
+import socialAccountsRouter from "./social-accounts";
+import postsRouter from "./posts";
+import inboxRouter from "./inbox";
+import analyticsRouter from "./analytics";
+import leadsRouter from "./leads";
+import campaignsRouter from "./campaigns";
+import listeningRouter from "./listening";
+import automationsRouter from "./automations";
+import notificationsRouter from "./notifications";
+import dashboardRouter from "./dashboard";
+import aiRouter from "./ai";
+import influencersRouter from "./influencers";
+import linkInBioRouter from "./link-in-bio";
+import uploadRouter from "./upload";
+
+const router: IRouter = Router();
+
+router.use(healthRouter);
+router.use(authRouter);
+router.use(workspacesRouter);
+router.use(socialAccountsRouter);
+router.use(postsRouter);
+router.use(inboxRouter);
+router.use(analyticsRouter);
+router.use(leadsRouter);
+router.use(campaignsRouter);
+router.use(listeningRouter);
+router.use(automationsRouter);
+router.use(notificationsRouter);
+router.use(dashboardRouter);
+router.use(aiRouter);
+router.use(influencersRouter);
+router.use(linkInBioRouter);
+router.use(uploadRouter);
+
+export default router;

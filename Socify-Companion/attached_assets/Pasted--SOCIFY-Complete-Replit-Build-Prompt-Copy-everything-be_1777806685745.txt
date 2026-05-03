@@ -1,0 +1,1657 @@
+# SOCIFY — Complete Replit Build Prompt
+# Copy everything below this line into Replit Agent
+
+---
+
+You are a principal full-stack engineer with 10+ years building enterprise SaaS products.
+Your task is to build SOCIFY — a production-grade Social Media Marketing (SMM) platform
+that competes with Sprout Social, Hootsuite, Agorapulse, Buffer, and Later.
+
+This is NOT a demo. NOT a mockup. NOT placeholder UI.
+Every button must work. Every page must have real data flow. Every feature must function.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🎯 PRODUCT: SOCIFY
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+SOCIFY is an all-in-one Social Media Marketing SaaS for agencies, brands, and creators.
+It includes: Unified Smart Inbox, Visual Content Calendar, AI Content Generation,
+Social Listening, CRM & Lead Pipeline, Campaign Management, Team Collaboration
+with Approval Workflows, Automation Builder, Link in Bio Builder, and full Analytics.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🎨 DESIGN SYSTEM — FOLLOW EXACTLY
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Theme: Dark SaaS — inspired by Linear, Vercel, and Raycast.
+
+Colors (use as CSS variables):
+  --bg-base:        #09090B   ← page background
+  --bg-surface:     #111113   ← sidebar, modals
+  --bg-card:        #18181B   ← cards, panels
+  --bg-hover:       #27272A   ← hover states
+  --border:         #27272A   ← all borders
+  --border-subtle:  rgba(255,255,255,0.06)
+  --text-primary:   #FAFAFA
+  --text-secondary: #A1A1AA
+  --text-muted:     #71717A
+  --accent:         #6366F1   ← indigo, primary actions
+  --accent-hover:   #4F46E5
+  --accent-subtle:  rgba(99,102,241,0.12)
+  --success:        #22C55E
+  --warning:        #F59E0B
+  --danger:         #EF4444
+  --info:           #3B82F6
+
+Typography:
+  Font: "Geist" (import from Google Fonts or use Inter as fallback)
+  Scale: 12px / 13px / 14px / 16px / 18px / 24px / 32px / 48px
+  Weights: 400 (body), 500 (labels), 600 (headings), 700 (display)
+
+Spacing: strict 8px grid (4, 8, 12, 16, 20, 24, 32, 40, 48, 64px)
+
+Border Radius:
+  --radius-sm:  6px   ← badges, tags
+  --radius-md:  8px   ← inputs, buttons
+  --radius-lg:  12px  ← cards
+  --radius-xl:  16px  ← modals, panels
+
+Shadows:
+  --shadow-sm:  0 1px 2px rgba(0,0,0,0.4)
+  --shadow-md:  0 4px 16px rgba(0,0,0,0.3)
+  --shadow-lg:  0 8px 32px rgba(0,0,0,0.4)
+  Card border: 1px solid var(--border)
+
+Motion: 150ms ease for hover/focus. 200ms ease for modals. 300ms for page transitions.
+
+Components must include:
+  ✅ Loading skeleton (animated pulse) on EVERY data fetch
+  ✅ Empty state with icon + title + subtitle + CTA button on EVERY list
+  ✅ Error state with retry button
+  ✅ Hover states on all interactive elements
+  ✅ Focus rings for accessibility (outline: 2px solid var(--accent))
+  ✅ Tooltips on icon-only buttons
+
+DO NOT USE: purple gradients on white, generic card layouts, Inter/Roboto/Arial as primary font,
+placeholder "Lorem ipsum" text anywhere, non-functional buttons.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🏗️ PROJECT STRUCTURE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+/socify
+├── /client                         # React 18 + Vite + TypeScript
+│   ├── /public
+│   │   └── /assets
+│   ├── /src
+│   │   ├── /pages
+│   │   │   ├── /auth
+│   │   │   │   ├── LoginPage.tsx
+│   │   │   │   ├── RegisterPage.tsx
+│   │   │   │   └── ForgotPasswordPage.tsx
+│   │   │   ├── DashboardPage.tsx
+│   │   │   ├── InboxPage.tsx
+│   │   │   ├── ComposerPage.tsx
+│   │   │   ├── CalendarPage.tsx
+│   │   │   ├── AnalyticsPage.tsx
+│   │   │   ├── ListeningPage.tsx
+│   │   │   ├── CRMPage.tsx
+│   │   │   ├── CampaignsPage.tsx
+│   │   │   ├── AutomationPage.tsx
+│   │   │   ├── InfluencersPage.tsx
+│   │   │   ├── LinkInBioPage.tsx
+│   │   │   ├── SettingsPage.tsx
+│   │   │   └── AdminPage.tsx
+│   │   ├── /components
+│   │   │   ├── /layout
+│   │   │   │   ├── AppShell.tsx       ← wraps all authenticated pages
+│   │   │   │   ├── Sidebar.tsx
+│   │   │   │   ├── Topbar.tsx
+│   │   │   │   └── WorkspaceSwitcher.tsx
+│   │   │   ├── /ui                    ← shadcn/ui + custom base components
+│   │   │   │   ├── Button.tsx
+│   │   │   │   ├── Input.tsx
+│   │   │   │   ├── Card.tsx
+│   │   │   │   ├── Badge.tsx
+│   │   │   │   ├── Modal.tsx
+│   │   │   │   ├── Skeleton.tsx
+│   │   │   │   ├── Avatar.tsx
+│   │   │   │   ├── Tooltip.tsx
+│   │   │   │   ├── Dropdown.tsx
+│   │   │   │   ├── Tabs.tsx
+│   │   │   │   └── Toast.tsx
+│   │   │   ├── /dashboard
+│   │   │   │   ├── StatsRow.tsx
+│   │   │   │   ├── RecentPosts.tsx
+│   │   │   │   ├── UpcomingPosts.tsx
+│   │   │   │   ├── InboxPreview.tsx
+│   │   │   │   ├── FollowerChart.tsx
+│   │   │   │   └── BestTimeCard.tsx
+│   │   │   ├── /inbox
+│   │   │   │   ├── InboxItem.tsx
+│   │   │   │   ├── InboxFilters.tsx
+│   │   │   │   ├── QuickReplyPanel.tsx
+│   │   │   │   ├── SentimentBadge.tsx
+│   │   │   │   ├── CustomerPanel.tsx
+│   │   │   │   └── SpikeAlert.tsx
+│   │   │   ├── /composer
+│   │   │   │   ├── PlatformSelector.tsx
+│   │   │   │   ├── CaptionEditor.tsx
+│   │   │   │   ├── MediaUploader.tsx
+│   │   │   │   ├── SchedulePicker.tsx
+│   │   │   │   ├── UTMBuilder.tsx
+│   │   │   │   ├── AIAssistPanel.tsx
+│   │   │   │   └── PostPreview.tsx
+│   │   │   ├── /calendar
+│   │   │   │   ├── CalendarGrid.tsx
+│   │   │   │   ├── PostDot.tsx
+│   │   │   │   ├── WeekView.tsx
+│   │   │   │   └── QueueView.tsx
+│   │   │   ├── /analytics
+│   │   │   │   ├── MetricCard.tsx
+│   │   │   │   ├── EngagementChart.tsx
+│   │   │   │   ├── PlatformBreakdown.tsx
+│   │   │   │   ├── TopPostsTable.tsx
+│   │   │   │   ├── HeatmapChart.tsx
+│   │   │   │   └── CompetitorChart.tsx
+│   │   │   ├── /crm
+│   │   │   │   ├── KanbanBoard.tsx
+│   │   │   │   ├── LeadCard.tsx
+│   │   │   │   ├── LeadModal.tsx
+│   │   │   │   └── ActivityTimeline.tsx
+│   │   │   └── /automation
+│   │   │       ├── WorkflowList.tsx
+│   │   │       ├── WorkflowBuilder.tsx
+│   │   │       ├── TriggerSelector.tsx
+│   │   │       └── ActionSelector.tsx
+│   │   ├── /hooks
+│   │   │   ├── useAuth.ts
+│   │   │   ├── useWorkspace.ts
+│   │   │   ├── usePosts.ts
+│   │   │   ├── useInbox.ts
+│   │   │   ├── useAnalytics.ts
+│   │   │   ├── useLeads.ts
+│   │   │   ├── useSocket.ts
+│   │   │   └── useNotifications.ts
+│   │   ├── /store
+│   │   │   ├── authStore.ts           ← Zustand
+│   │   │   ├── workspaceStore.ts
+│   │   │   ├── inboxStore.ts
+│   │   │   └── notificationStore.ts
+│   │   ├── /services
+│   │   │   ├── api.ts                 ← axios instance + interceptors
+│   │   │   ├── auth.service.ts
+│   │   │   ├── posts.service.ts
+│   │   │   ├── inbox.service.ts
+│   │   │   ├── analytics.service.ts
+│   │   │   ├── leads.service.ts
+│   │   │   └── ai.service.ts
+│   │   ├── /utils
+│   │   │   ├── cn.ts                  ← classnames helper
+│   │   │   ├── format.ts              ← dates, numbers, text truncate
+│   │   │   └── constants.ts
+│   │   ├── /types
+│   │   │   └── index.ts
+│   │   ├── App.tsx
+│   │   ├── main.tsx
+│   │   └── index.css
+│   ├── index.html
+│   ├── vite.config.ts
+│   ├── tailwind.config.ts
+│   └── package.json
+│
+├── /server                           # Node.js + Express + TypeScript
+│   ├── /src
+│   │   ├── /config
+│   │   │   ├── db.ts                 ← MongoDB connection
+│   │   │   ├── env.ts                ← validated env vars
+│   │   │   └── socket.ts             ← Socket.io setup
+│   │   ├── /models
+│   │   │   ├── User.ts
+│   │   │   ├── Workspace.ts
+│   │   │   ├── SocialAccount.ts
+│   │   │   ├── Post.ts
+│   │   │   ├── InboxMessage.ts
+│   │   │   ├── Campaign.ts
+│   │   │   ├── Lead.ts
+│   │   │   ├── ListeningKeyword.ts
+│   │   │   ├── ListeningMention.ts
+│   │   │   ├── Automation.ts
+│   │   │   ├── Influencer.ts
+│   │   │   ├── LinkInBio.ts
+│   │   │   ├── Notification.ts
+│   │   │   ├── AnalyticsEvent.ts
+│   │   │   └── ActivityLog.ts
+│   │   ├── /routes
+│   │   │   ├── auth.routes.ts
+│   │   │   ├── workspace.routes.ts
+│   │   │   ├── social.routes.ts
+│   │   │   ├── posts.routes.ts
+│   │   │   ├── inbox.routes.ts
+│   │   │   ├── analytics.routes.ts
+│   │   │   ├── listening.routes.ts
+│   │   │   ├── leads.routes.ts
+│   │   │   ├── campaigns.routes.ts
+│   │   │   ├── automation.routes.ts
+│   │   │   ├── influencers.routes.ts
+│   │   │   ├── linkinbio.routes.ts
+│   │   │   ├── ai.routes.ts
+│   │   │   ├── notifications.routes.ts
+│   │   │   └── admin.routes.ts
+│   │   ├── /controllers
+│   │   │   └── [one controller per route file]
+│   │   ├── /services
+│   │   │   ├── auth.service.ts
+│   │   │   ├── social.service.ts
+│   │   │   ├── post.service.ts
+│   │   │   ├── inbox.service.ts
+│   │   │   ├── analytics.service.ts
+│   │   │   ├── listening.service.ts
+│   │   │   ├── ai.service.ts
+│   │   │   ├── automation.service.ts
+│   │   │   └── notification.service.ts
+│   │   ├── /middleware
+│   │   │   ├── auth.middleware.ts      ← verify JWT
+│   │   │   ├── workspace.middleware.ts ← attach workspace to req
+│   │   │   ├── roles.middleware.ts     ← RBAC check
+│   │   │   ├── plan.middleware.ts      ← plan limits check
+│   │   │   ├── rateLimiter.ts
+│   │   │   └── errorHandler.ts
+│   │   ├── /jobs
+│   │   │   ├── postScheduler.job.ts   ← cron: publish scheduled posts
+│   │   │   ├── weeklyDigest.job.ts    ← cron: Monday email digest
+│   │   │   └── listeningSync.job.ts   ← cron: fetch new mentions
+│   │   ├── /socket
+│   │   │   ├── inbox.socket.ts
+│   │   │   └── notification.socket.ts
+│   │   └── /utils
+│   │       ├── apiResponse.ts          ← { success, data, message, meta }
+│   │       ├── asyncHandler.ts
+│   │       ├── mockData.ts             ← realistic mock data generators
+│   │       └── validators.ts
+│   ├── server.ts
+│   └── package.json
+│
+├── .env.example
+└── README.md
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+⚙️ ENVIRONMENT VARIABLES (.env.example)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+# Server
+PORT=5000
+NODE_ENV=development
+CLIENT_URL=http://localhost:5173
+
+# Database
+MONGODB_URI=mongodb+srv://...
+
+# JWT
+JWT_ACCESS_SECRET=your-super-secret-access-key-min-32-chars
+JWT_REFRESH_SECRET=your-super-secret-refresh-key-min-32-chars
+JWT_ACCESS_EXPIRES=15m
+JWT_REFRESH_EXPIRES=7d
+
+# AI
+OPENAI_API_KEY=sk-...
+
+# Email (mock/nodemailer)
+SMTP_HOST=smtp.mailtrap.io
+SMTP_PORT=2525
+SMTP_USER=
+SMTP_PASS=
+EMAIL_FROM=noreply@socify.app
+
+# Cloudinary (media uploads)
+CLOUDINARY_CLOUD_NAME=
+CLOUDINARY_API_KEY=
+CLOUDINARY_API_SECRET=
+
+# Social APIs (mock if empty)
+FACEBOOK_APP_ID=
+FACEBOOK_APP_SECRET=
+TWITTER_API_KEY=
+TWITTER_API_SECRET=
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📦 DEPENDENCIES
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+SERVER package.json:
+{
+  "dependencies": {
+    "express": "^4.18.2",
+    "mongoose": "^8.0.0",
+    "socket.io": "^4.6.0",
+    "jsonwebtoken": "^9.0.2",
+    "bcryptjs": "^2.4.3",
+    "zod": "^3.22.4",
+    "openai": "^4.20.0",
+    "nodemailer": "^6.9.7",
+    "cloudinary": "^1.41.0",
+    "multer": "^1.4.5-lts.1",
+    "express-rate-limit": "^7.1.5",
+    "helmet": "^7.1.0",
+    "morgan": "^1.10.0",
+    "cors": "^2.8.5",
+    "node-cron": "^3.0.3",
+    "dotenv": "^16.3.1",
+    "date-fns": "^3.0.0",
+    "uuid": "^9.0.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.3.2",
+    "@types/express": "^4.17.21",
+    "@types/node": "^20.10.0",
+    "@types/bcryptjs": "^2.4.6",
+    "@types/jsonwebtoken": "^9.0.5",
+    "@types/nodemailer": "^6.4.14",
+    "@types/cors": "^2.8.17",
+    "ts-node": "^10.9.2",
+    "nodemon": "^3.0.2"
+  }
+}
+
+CLIENT package.json:
+{
+  "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-router-dom": "^6.20.0",
+    "axios": "^1.6.2",
+    "zustand": "^4.4.7",
+    "@tanstack/react-query": "^5.10.0",
+    "socket.io-client": "^4.6.0",
+    "recharts": "^2.10.0",
+    "@dnd-kit/core": "^6.1.0",
+    "@dnd-kit/sortable": "^8.0.0",
+    "react-hook-form": "^7.48.2",
+    "zod": "^3.22.4",
+    "@hookform/resolvers": "^3.3.2",
+    "date-fns": "^3.0.0",
+    "framer-motion": "^10.16.5",
+    "react-hot-toast": "^2.4.1",
+    "clsx": "^2.0.0",
+    "tailwind-merge": "^2.1.0",
+    "lucide-react": "^0.298.0",
+    "@radix-ui/react-dialog": "^1.0.5",
+    "@radix-ui/react-dropdown-menu": "^2.0.6",
+    "@radix-ui/react-tooltip": "^1.0.7",
+    "@radix-ui/react-tabs": "^1.0.4",
+    "@radix-ui/react-avatar": "^1.0.4",
+    "@radix-ui/react-select": "^2.0.0",
+    "@radix-ui/react-switch": "^1.0.3",
+    "@radix-ui/react-progress": "^1.0.3"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^4.2.1",
+    "typescript": "^5.3.2",
+    "tailwindcss": "^3.3.6",
+    "postcss": "^8.4.32",
+    "autoprefixer": "^10.4.16",
+    "vite": "^5.0.8"
+  }
+}
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🗄️ DATABASE SCHEMAS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+// User.ts
+{
+  name: String,
+  email: { type: String, unique: true, lowercase: true },
+  password: String,  // bcrypt hashed
+  avatar: String,
+  role: { type: String, enum: ['superadmin', 'user'], default: 'user' },
+  workspaces: [{ workspace: ObjectId, role: String }],
+  currentWorkspace: ObjectId,
+  isEmailVerified: Boolean,
+  lastLoginAt: Date,
+  refreshToken: String,
+  createdAt: Date
+}
+
+// Workspace.ts
+{
+  name: String,
+  slug: { type: String, unique: true },
+  logo: String,
+  plan: { type: String, enum: ['free', 'pro', 'agency', 'enterprise'], default: 'free' },
+  owner: ObjectId → User,
+  members: [{
+    user: ObjectId → User,
+    role: { type: String, enum: ['owner', 'admin', 'editor', 'viewer', 'analyst'] },
+    joinedAt: Date
+  }],
+  settings: {
+    timezone: { type: String, default: 'UTC' },
+    brandColor: String,
+    defaultHashtags: [String],
+    notificationPrefs: {
+      emailDigest: Boolean,
+      spikeAlerts: Boolean,
+      postFailures: Boolean
+    }
+  },
+  usage: {
+    postsThisMonth: Number,
+    socialAccountsCount: Number,
+    teamMembersCount: Number
+  },
+  createdAt: Date
+}
+
+// SocialAccount.ts
+{
+  workspace: ObjectId → Workspace,
+  platform: { type: String, enum: ['facebook','instagram','twitter','linkedin','tiktok','youtube','pinterest','threads','googlebusiness'] },
+  accountType: { type: String, enum: ['page', 'profile', 'business'] },
+  name: String,
+  handle: String,
+  avatar: String,
+  accessToken: String,
+  refreshToken: String,
+  tokenExpiry: Date,
+  externalId: String,
+  isActive: Boolean,
+  followers: Number,
+  following: Number,
+  stats: {
+    avgEngagementRate: Number,
+    postsCount: Number,
+    avgReach: Number
+  },
+  lastSyncAt: Date,
+  connectedAt: Date
+}
+
+// Post.ts
+{
+  workspace: ObjectId → Workspace,
+  author: ObjectId → User,
+  approvedBy: ObjectId → User,
+  platforms: [{
+    name: String,
+    accountId: ObjectId → SocialAccount,
+    customCaption: String,
+    platformPostId: String,
+    publishedAt: Date,
+    metrics: {
+      reach: Number, impressions: Number, likes: Number,
+      comments: Number, shares: Number, clicks: Number, saves: Number
+    }
+  }],
+  caption: String,
+  mediaUrls: [String],
+  mediaType: { type: String, enum: ['image','video','carousel','text','reel','story'] },
+  firstComment: String,
+  hashtags: [String],
+  mentions: [String],
+  location: String,
+  utmParams: { source: String, medium: String, campaign: String, content: String },
+  scheduledAt: Date,
+  timezone: String,
+  status: {
+    type: String,
+    enum: ['draft','pending_approval','revision_requested','approved','scheduled','publishing','published','failed','archived'],
+    default: 'draft'
+  },
+  approvalComment: String,
+  campaign: ObjectId → Campaign,
+  contentCategory: String,
+  tags: [String],
+  isRecurring: Boolean,
+  recurrenceRule: String,    // cron expression
+  aiGenerated: Boolean,
+  generationPrompt: String,
+  totalReach: Number,        // aggregated across platforms
+  totalEngagement: Number,   // aggregated
+  createdAt: Date
+}
+
+// InboxMessage.ts
+{
+  workspace: ObjectId → Workspace,
+  platform: String,
+  socialAccount: ObjectId → SocialAccount,
+  type: { type: String, enum: ['dm', 'comment', 'mention', 'review', 'reply'] },
+  externalId: String,
+  externalPostId: String,
+  sender: {
+    name: String,
+    handle: String,
+    avatar: String,
+    profileUrl: String,
+    externalId: String
+  },
+  content: String,
+  mediaUrls: [String],
+  sentiment: { type: String, enum: ['positive', 'neutral', 'negative', 'mixed'] },
+  sentimentScore: Number,    // -1 to 1
+  status: { type: String, enum: ['unread','read','in_progress','done','snoozed','spam'], default: 'unread' },
+  assignedTo: ObjectId → User,
+  internalNotes: [{ user: ObjectId, text: String, createdAt: Date }],
+  tags: [String],
+  snoozedUntil: Date,
+  isStarred: Boolean,
+  parentMessageId: String,
+  receivedAt: Date,
+  repliedAt: Date,
+  repliedBy: ObjectId → User
+}
+
+// Lead.ts
+{
+  workspace: ObjectId → Workspace,
+  name: String,
+  email: String,
+  phone: String,
+  company: String,
+  position: String,
+  avatar: String,
+  socialProfiles: [{
+    platform: String,
+    handle: String,
+    profileUrl: String
+  }],
+  source: { type: String, enum: ['manual', 'inbox', 'form', 'csv_import', 'campaign'] },
+  sourceId: ObjectId,     // InboxMessage or Campaign that generated lead
+  stage: {
+    type: String,
+    enum: ['new', 'contacted', 'qualified', 'proposal', 'negotiation', 'won', 'lost'],
+    default: 'new'
+  },
+  score: { type: Number, default: 0 },
+  assignedTo: ObjectId → User,
+  tags: [String],
+  customFields: Map,
+  notes: String,
+  timeline: [{
+    type: { type: String, enum: ['note', 'call', 'email', 'stage_change', 'message', 'system'] },
+    content: String,
+    user: ObjectId → User,
+    createdAt: Date
+  }],
+  attachments: [String],
+  nextFollowUpDate: Date,
+  estimatedValue: Number,
+  currency: String,
+  wonAt: Date,
+  lostReason: String,
+  createdAt: Date
+}
+
+// Campaign.ts
+{
+  workspace: ObjectId → Workspace,
+  name: String,
+  description: String,
+  objective: { type: String, enum: ['awareness', 'engagement', 'leads', 'sales', 'traffic'] },
+  status: { type: String, enum: ['draft', 'active', 'paused', 'completed', 'archived'], default: 'draft' },
+  startDate: Date,
+  endDate: Date,
+  budget: Number,
+  currency: String,
+  targetPlatforms: [String],
+  targetAudience: {
+    ageRange: String,
+    gender: String,
+    locations: [String],
+    interests: [String]
+  },
+  posts: [ObjectId → Post],
+  leads: [ObjectId → Lead],
+  team: [ObjectId → User],
+  metrics: {
+    totalReach: Number,
+    totalImpressions: Number,
+    totalEngagement: Number,
+    totalClicks: Number,
+    leadsGenerated: Number,
+    conversions: Number,
+    revenue: Number,
+    roi: Number
+  },
+  color: String,
+  tags: [String],
+  createdAt: Date
+}
+
+// ListeningMention.ts
+{
+  workspace: ObjectId → Workspace,
+  keyword: ObjectId → ListeningKeyword,
+  platform: String,
+  author: { name: String, handle: String, avatar: String, followers: Number },
+  content: String,
+  url: String,
+  sentiment: String,
+  sentimentScore: Number,
+  engagement: { likes: Number, shares: Number, comments: Number, views: Number },
+  reach: Number,
+  location: String,
+  language: String,
+  isSpike: Boolean,
+  publishedAt: Date,
+  fetchedAt: Date
+}
+
+// Automation.ts
+{
+  workspace: ObjectId → Workspace,
+  name: String,
+  description: String,
+  isActive: Boolean,
+  trigger: {
+    type: { type: String, enum: ['new_message','post_published','post_failed','new_lead','lead_stage_change','mention_spike','keyword_match','follower_milestone','scheduled'] },
+    conditions: [{
+      field: String,
+      operator: { type: String, enum: ['equals','contains','greater_than','less_than','in'] },
+      value: Mixed
+    }]
+  },
+  actions: [{
+    type: { type: String, enum: ['send_notification','assign_message','add_tag','move_lead_stage','create_draft_reply','webhook','send_email','add_note'] },
+    config: Map
+  }],
+  runCount: Number,
+  lastRunAt: Date,
+  createdAt: Date
+}
+
+// LinkInBio.ts
+{
+  workspace: ObjectId → Workspace,
+  user: ObjectId → User,
+  slug: { type: String, unique: true },
+  title: String,
+  bio: String,
+  avatar: String,
+  backgroundColor: String,
+  accentColor: String,
+  fontStyle: String,
+  template: { type: String, enum: ['minimal', 'bold', 'gradient', 'dark', 'neon'] },
+  links: [{
+    id: String,
+    label: String,
+    url: String,
+    icon: String,
+    type: { type: String, enum: ['url','social','email','phone','youtube','product'] },
+    clicks: { type: Number, default: 0 },
+    isActive: { type: Boolean, default: true },
+    order: Number
+  }],
+  totalViews: { type: Number, default: 0 },
+  isPublished: { type: Boolean, default: false },
+  customDomain: String,
+  updatedAt: Date
+}
+
+// Notification.ts
+{
+  user: ObjectId → User,
+  workspace: ObjectId → Workspace,
+  type: { type: String, enum: ['post_approved','post_rejected','post_published','post_failed','new_message','mention_spike','lead_assigned','team_invite','plan_limit','weekly_digest'] },
+  title: String,
+  body: String,
+  link: String,
+  isRead: { type: Boolean, default: false },
+  createdAt: Date
+}
+
+// ActivityLog.ts (Admin)
+{
+  user: ObjectId → User,
+  workspace: ObjectId → Workspace,
+  action: String,          // 'post.created', 'lead.deleted', 'user.banned'
+  resource: String,        // 'Post', 'Lead', 'User'
+  resourceId: ObjectId,
+  details: Mixed,
+  ipAddress: String,
+  userAgent: String,
+  createdAt: Date
+}
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🔐 PHASE 1: AUTH SYSTEM
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Backend API Endpoints:
+
+POST   /api/auth/register
+  Body: { name, email, password, workspaceName }
+  → Hash password (bcrypt rounds: 12)
+  → Create User + default Workspace + assign owner role
+  → Return: { user, workspace, accessToken } + set refreshToken httpOnly cookie
+
+POST   /api/auth/login
+  Body: { email, password }
+  → Verify credentials
+  → Log lastLoginAt
+  → Return: { user, workspace, accessToken } + set refreshToken httpOnly cookie
+
+POST   /api/auth/refresh
+  → Read refreshToken from httpOnly cookie
+  → Verify, rotate, issue new accessToken
+  → Return: { accessToken }
+
+POST   /api/auth/logout
+  → Clear refreshToken cookie
+  → Invalidate refreshToken in DB
+
+POST   /api/auth/forgot-password
+  Body: { email }
+  → Generate reset token (crypto.randomBytes), store hash + expiry in DB
+  → Send reset email with link
+
+POST   /api/auth/reset-password
+  Body: { token, newPassword }
+  → Verify token, hash new password, clear token
+
+GET    /api/auth/me
+  → Protected route
+  → Return: { user, currentWorkspace, permissions }
+
+Auth Middleware (auth.middleware.ts):
+  → Read Authorization: Bearer <token>
+  → Verify JWT, attach req.user
+  → If expired → 401 (client auto-refreshes)
+
+JWT Payload: { userId, email, workspaceId, role }
+
+Frontend Auth Pages Design:
+  - Split layout: left side = branding gradient panel with product headline
+  - Right side = clean form on dark bg
+  - Left panel: show SOCIFY logo, tagline "Social Media. Unified." and 3 feature highlights
+  - Form: floating labels, password toggle visibility, "Remember me" checkbox
+  - Submit button: full width, loading spinner state
+  - Error: inline shake animation + red border + error message below field
+  - Social login buttons (Google OAuth — mock if not configured)
+  - Link: "Already have an account? Sign in"
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🎛️ PHASE 2: APP SHELL & NAVIGATION
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Sidebar (240px wide, collapsible to 64px):
+  Top:
+    - SOCIFY logo (S icon when collapsed)
+    - Workspace name + switcher dropdown
+
+  Navigation groups (with section labels):
+  
+  PUBLISH
+    📝 Composer        → /composer
+    🗓️  Calendar        → /calendar
+    📋 Drafts          → /drafts
+    ⏱️  Queue           → /queue
+
+  ENGAGE
+    📬 Smart Inbox     → /inbox  (show unread count badge)
+    ⭐ Reviews         → /reviews
+    💬 Comments        → /comments
+
+  ANALYZE
+    📊 Overview        → /analytics
+    📈 Reports         → /reports
+    🏆 Competitors     → /analytics/competitors
+
+  LISTEN
+    👂 Brand Monitor   → /listening
+    🔑 Keywords        → /listening/keywords
+    📣 Mentions        → /listening/mentions
+
+  GROW
+    👥 CRM             → /crm
+    🎯 Campaigns       → /campaigns
+    🌟 Influencers     → /influencers
+
+  AUTOMATE
+    ⚡ Workflows        → /automation
+    📜 Logs            → /automation/logs
+
+  BUILD
+    🔗 Link in Bio     → /linkinbio
+
+  Bottom:
+    ⚙️  Settings        → /settings
+    🛡️  Admin           → /admin  (superadmin only)
+    ❓ Help & Docs
+
+  Sidebar footer:
+    - User avatar + name + workspace plan badge
+    - Logout button
+
+Topbar (full width, 56px height):
+  Left:  Current page title + breadcrumb
+  Center: Global search (⌘K shortcut → opens command palette modal)
+  Right:
+    - "✨ New Post" button (accent color, always visible)
+    - Notification bell (red dot if unread)
+    - Help icon
+    - User avatar dropdown → Profile | Settings | Switch workspace | Logout
+
+Command Palette (⌘K):
+  - Search posts, leads, inbox messages, settings
+  - Quick actions: "New Post", "Add Lead", "View Analytics"
+  - Recent pages
+  - Keyboard navigation
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🏠 PHASE 3: DASHBOARD PAGE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Layout: 3-column grid with widget cards
+
+Header:
+  "Good morning, Ahmed 👋" (dynamic based on time of day)
+  Subtitle: "Here's your social performance overview"
+
+Row 1 — Quick Stats (5 metric cards with trend arrows):
+  Total Reach     | Engagements    | Posts Scheduled
+  New Leads       | Inbox Unread
+  Each card: metric name, big number (animated count-up), % change vs last period, trend arrow
+
+Row 2:
+  Left (2/3 width): Follower Growth Chart (area chart, 30 days, all platforms overlaid)
+  Right (1/3 width): Engagement Breakdown (donut chart by platform)
+
+Row 3:
+  Left (1/2): Recent Post Performance (last 5 posts, compact list)
+    → Each row: platform icon, caption preview, reach, engagement, status badge
+  Right (1/2): Upcoming Scheduled Posts (next 7 days)
+    → Timeline list with platform icons and scheduled time
+
+Row 4:
+  Left (1/3): Smart Inbox Preview
+    → 3 latest unread messages, "View all X messages →" link
+  Center (1/3): Active Campaigns (list with progress bars)
+  Right (1/3): Best Times AI Card
+    → "📡 Best time to post today: 7:00 PM (estimated +34% reach)"
+    → Per-platform best time table
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📬 PHASE 4: UNIFIED SMART INBOX
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Layout: 3-panel (filters | message list | message detail)
+
+Left Panel — Filters (200px):
+  Status: All | Unread | In Progress | Done | Snoozed
+  Type:   All | DM | Comments | Mentions | Reviews
+  Platform: All | [platform icons]
+  Sentiment: All | 😊 Positive | 😐 Neutral | 😠 Negative
+  Assigned: All | Me | Unassigned | [teammates]
+
+Center Panel — Message List:
+  Spike Alert Banner (conditional):
+    🔔 "Unusual activity: 47 new mentions in the last hour — View all →"
+
+  Each message item (compact card):
+    - Platform icon + sender avatar
+    - Sender name + handle + time ago
+    - Message preview (2 lines, truncated)
+    - Sentiment badge (colored dot: green/gray/red)
+    - Status indicator
+    - Unread bold styling
+    - Hover: show quick action buttons (✓ Done | 👤 Assign | ⭐ Star)
+
+  Bulk action toolbar (appears when items selected):
+    [✓ Mark Done] [👤 Assign to...] [🏷️ Tag] [🗑️ Spam] [📁 Archive]
+
+  "Inbox Zero" state:
+    ✅ Illustration + "You're all caught up!" + confetti animation
+
+Right Panel — Message Detail:
+  Header:
+    - Sender info (avatar, name, handle, followers count, profile link)
+    - Platform badge
+    - Original post context (if comment)
+    - Sentiment badge
+
+  Message thread (conversation history with this sender)
+
+  Reply composer:
+    - Text input with character counter
+    - Media attach button
+    - Emoji picker
+    - Saved Quick Replies dropdown (search + select)
+    - "✨ Suggest Reply" AI button → generates 3 reply options
+    - Send button
+
+  Internal Notes (below reply area, collapsible):
+    - Team-only notes, not sent to customer
+    - Shows team member avatar + note content
+
+  Right sidebar (customer profile panel):
+    - All previous interactions timeline
+    - Total messages: X | First contact: date
+    - Tags applied
+    - "Save as Lead" button (one-click → opens lead form pre-filled)
+    - Assigned to (dropdown to reassign)
+
+Real-time:
+  - New messages appear at top of list without page refresh (Socket.io)
+  - Unread count in sidebar badge updates live
+  - If multiple team members view same message → show "👁️ Sarah is viewing this"
+
+Saved Quick Replies CRUD:
+  - Create/edit/delete reply templates
+  - Organize by category
+  - Variables: {{sender_name}}, {{business_name}}, {{agent_name}}
+
+API Endpoints:
+  GET    /api/inbox?status=&platform=&type=&sentiment=&assignedTo=&page=&limit=20
+  GET    /api/inbox/:id
+  PATCH  /api/inbox/:id/status        { status }
+  PATCH  /api/inbox/:id/assign        { userId }
+  POST   /api/inbox/:id/notes         { text }
+  POST   /api/inbox/:id/reply         { content, mediaUrls }
+  PATCH  /api/inbox/bulk              { ids[], action }
+  GET    /api/inbox/stats             → unread counts per type
+  GET    /api/inbox/quick-replies
+  POST   /api/inbox/quick-replies     { title, content, category }
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📝 PHASE 5: POST COMPOSER
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Full-page composer layout:
+
+Left Column (60%) — Editor:
+  Platform selector:
+    Row of connected account buttons (icon + name)
+    Click to toggle — highlighted = selected
+    "Customize per platform" toggle → shows per-platform caption tabs
+
+  Caption Editor:
+    - Rich textarea with character counter (changes color near limit)
+    - Per-platform limits shown: Instagram 2200 | Twitter 280 | LinkedIn 3000
+    - Mention autocomplete (@...)
+    - Hashtag highlighting (blue color for #tags)
+
+  First Comment field (Instagram only, collapsible):
+    "Add first comment (great for hashtags!)"
+
+  Media Section:
+    - Drag-drop upload zone (dashed border, darkens on drag)
+    - Accepted: jpg, png, gif, mp4, mov
+    - Grid preview of uploaded media (reorderable for carousel)
+    - Per-image: crop, alt text, remove buttons
+    - Cloudinary upload with progress bar
+
+  Additional Options (collapsible accordion):
+    📍 Location: text input with autocomplete mock
+    🔗 UTM Builder: source + medium + campaign + preview URL
+    🏷️ Campaign: dropdown to assign to campaign
+    📂 Content Category: dropdown (Promotional, Educational, Entertaining, etc.)
+    🔄 Recurring: toggle → select cron pattern
+
+Right Column (40%) — Preview & AI:
+  Platform Preview Tabs:
+    Switch between Instagram / Facebook / Twitter mockup
+    Shows realistic phone frame with post rendered inside
+
+  AI Assistant Panel (expandable):
+    Header: "✨ AI Content Assistant"
+    
+    Section 1 — Generate Caption:
+      - Topic/product input
+      - Tone selector: [Informative] [Funny] [Promotional] [Inspirational] [Professional]
+      - Platform context checkbox
+      - "Generate 3 Variations" button
+      - Output: 3 caption cards with "Use this" button on each
+    
+    Section 2 — Improve Caption:
+      - "What would you like?" text input
+      - Examples: "Make it shorter", "Add CTA", "More energetic"
+      - "Improve →" button
+    
+    Section 3 — Hashtags:
+      - "Generate Hashtags" button
+      - Output: 3 groups (Niche | Medium | Broad) with estimated reach
+      - Click tags to add to caption
+    
+    Section 4 — Post Ideas:
+      - Context input (brand/niche)
+      - "Give me 5 ideas" button
+      - Output: 5 idea cards with hook + format suggestion
+
+  Scheduling Panel (below preview):
+    - [Post Now] [Schedule] [Save Draft] [Add to Queue] [Send for Approval]
+    - Date + time picker (with timezone selector)
+    - "Best times" AI suggestion chips:
+      "⚡ Tuesday 7 PM — highest predicted engagement"
+
+Bottom Bar:
+  Left: "Discard" link
+  Right: Selected action button (context-aware, changes based on selection above)
+
+API Endpoints:
+  POST   /api/posts                     ← create draft/scheduled
+  PUT    /api/posts/:id
+  DELETE /api/posts/:id
+  POST   /api/posts/:id/publish         ← publish now
+  POST   /api/posts/:id/approve         ← admin approves
+  POST   /api/posts/:id/reject          { comment }
+  GET    /api/posts?status=&platform=&campaign=&page=
+  GET    /api/posts/calendar?month=&year=
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🗓️ PHASE 6: VISUAL CONTENT CALENDAR
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Views (tab switcher in topbar): Month | Week | List | Queue
+
+Month View:
+  - Full-month grid (7 columns)
+  - Each day cell: shows platform icon dots for each post
+  - Click post dot → popover with: caption preview, status, edit/delete options
+  - Click empty day → opens composer with date pre-filled
+  - Color coding:
+    Draft = gray (#71717A)
+    Pending Approval = amber (#F59E0B)
+    Scheduled = indigo (#6366F1)
+    Published = green (#22C55E)
+    Failed = red (#EF4444)
+  - Drag a post from one day to another to reschedule
+  - Platform filter chips row (toggle to show/hide per platform)
+  - Campaign mode toggle: highlights all posts of a selected campaign
+  - Calendar Notes: click "+" on any day to add internal note (shown as small sticky)
+
+Week View:
+  - 7-column timeline grid with 24-hour rows
+  - Posts shown as blocks at their scheduled time
+  - Drag blocks to change time
+  - "Best time" zones highlighted with subtle indigo tint
+
+List View:
+  - Chronological table: Date | Platform | Caption | Status | Metrics | Actions
+  - Sortable columns
+  - Bulk select + actions (reschedule, delete, change status)
+  - Quick status filter tabs
+
+Queue View:
+  - Per-account queue: sorted list of scheduled posts for each connected account
+  - Shows time slots (e.g., "Mon 9AM, Mon 7PM, Tue 9AM...")
+  - Drag to reorder within queue
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📊 PHASE 7: ANALYTICS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Overview Page:
+  Header controls:
+    - Date range picker (Last 7d / 30d / 90d / Custom)
+    - Platform selector (All / individual)
+    - Compare toggle: compare with previous period
+
+  Metrics grid (6 cards):
+    Total Reach | Total Impressions | Engagements | Engagement Rate
+    Link Clicks | Followers Change (+/-)
+
+  Charts:
+    1. Reach & Impressions (area chart, dual line, 30-day)
+    2. Engagement breakdown by type (bar chart: likes, comments, shares, saves)
+    3. Follower growth (area chart)
+    4. Posting frequency vs engagement rate (scatter plot correlation)
+    5. Best day heatmap (7x24 grid, darker = more engagement)
+    6. Platform share of voice (donut chart)
+
+Top Posts Table:
+  Columns: Thumbnail | Caption | Platform | Date | Reach | Eng. Rate | Clicks | Status
+  Click row → post detail modal with full metrics breakdown
+
+Per-Platform Tab:
+  Instagram: Reach, Impressions, Profile Visits, Follower Growth, Story Views, Reel Plays
+  Facebook: Page Views, Reach, Reactions breakdown, Page Likes growth
+  Twitter/X: Impressions, Engagements, Link Clicks, Retweets, Replies
+  LinkedIn: Impressions, Clicks, Followers, Company Page Views
+  TikTok: Views, Likes, Shares, Profile Visits, Completion Rate
+
+Competitors Page:
+  - Add competitor handles (up to 5 on Pro plan)
+  - Table: Competitor | Followers | Avg Eng Rate | Posts/Week | Last Post
+  - Chart: Your engagement rate vs competitor (grouped bar, last 4 weeks)
+  - Share of voice pie chart (mentions comparison)
+
+ROI Page:
+  - Connect Google Analytics 4 section (shows instructions + mock data if not connected)
+  - Traffic from social (sessions, users per platform)
+  - Conversions attributed to social
+  - Revenue from social (if ecommerce GA4 configured)
+  - "Your Instagram generated 127 website visits and 8 conversions this month"
+
+Custom Reports:
+  - Template picker: Performance Summary | Campaign Report | Competitor Report | Custom
+  - Date range + platform filter
+  - Add/remove metric widgets
+  - Preview → Export PDF button (html2canvas + jsPDF)
+  - Schedule automated email report: daily/weekly/monthly
+
+API Endpoints:
+  GET /api/analytics/overview?from=&to=&platform=
+  GET /api/analytics/posts/top?limit=10&sortBy=engagement
+  GET /api/analytics/platforms/:platform?from=&to=
+  GET /api/analytics/heatmap?from=&to=
+  GET /api/analytics/competitors
+  GET /api/analytics/roi
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+👂 PHASE 8: SOCIAL LISTENING
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Keywords Management:
+  - Create topics to monitor: brand name, competitor name, hashtag, keyword, product name
+  - Color-code per topic
+  - Toggle on/off per topic
+  - Delete
+
+Mentions Feed (main view):
+  Left sidebar: Topic list with mention count badges
+  Main area: Infinite scroll feed of mentions
+  
+  Each mention card:
+    - Platform icon + author avatar + name + handle + followers
+    - Published time
+    - Content (with keyword highlighted in yellow)
+    - Sentiment badge (large, colored)
+    - Engagement stats (likes, shares, comments)
+    - Actions: Reply | Save | Ignore | Create Lead
+
+  Filters bar:
+    Platform | Sentiment | Language | Date | Verified accounts only | Min followers
+
+Spike Alert System:
+  - Alert threshold config (e.g., alert if >50 mentions/hour)
+  - Banner shown in inbox + listening page
+  - Push notification sent via Socket.io
+
+Analytics (Listening tab):
+  - Mention volume over time (line chart)
+  - Sentiment trend (stacked area: positive/neutral/negative)
+  - Word cloud (top 30 associated words)
+  - Top mentions table (by engagement)
+  - Share of voice vs competitors (pie chart)
+  - Top locations (bar chart)
+
+API Endpoints:
+  GET  /api/listening/keywords
+  POST /api/listening/keywords        { name, color, type }
+  DELETE /api/listening/keywords/:id
+  GET  /api/listening/mentions?keyword=&sentiment=&platform=&page=
+  GET  /api/listening/analytics?from=&to=
+
+For social APIs not available: use realistic mock data generator
+that produces believable mentions, authors, sentiment distributions.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+👥 PHASE 9: CRM & LEAD MANAGEMENT
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Layout: Kanban Board (default) + List View toggle
+
+Kanban Columns (draggable cards between stages):
+  [🆕 New] [📞 Contacted] [✅ Qualified] [📄 Proposal] [🤝 Negotiation] [🏆 Won] [❌ Lost]
+
+  Column header: stage name + count + total estimated value
+  Add stage button (+ New Stage)
+
+Each Lead Card (compact):
+  - Avatar + name + company
+  - Source badge (Instagram DM, Facebook Comment, etc.)
+  - Score badge (colored: 0-30 low | 31-70 medium | 71+ high)
+  - Assigned avatar
+  - Next follow-up date (red if overdue)
+  - Estimated value
+  - Drag handle
+
+Lead Detail Modal (full-screen overlay):
+  Left panel:
+    - Avatar (editable), name, email, phone, company, position
+    - Social profiles linked (click → opens in new tab)
+    - Stage dropdown
+    - Assigned to dropdown
+    - Estimated value + currency
+    - Tags input
+    - Score display + breakdown
+    - Next follow-up date picker
+    - Custom fields section
+
+  Right panel — Activity Timeline:
+    - Chronological log of all interactions
+    - Filter: All | Notes | Calls | Emails | Messages | Stage Changes
+    - Add note form: text area + submit
+    - Auto-logged events: stage change, assignment change, message received
+
+  Bottom tabs:
+    Activity | Notes | Attachments | Related Posts | Emails
+
+Quick Actions (on card hover):
+  📝 Add Note | 📞 Log Call | 📧 Send Email | ➡️ Move Stage | 🗑️ Delete
+
+List View:
+  - Sortable table: Name | Company | Stage | Score | Value | Assigned | Last Activity | Actions
+  - Column visibility toggle
+  - Bulk actions: Assign | Move Stage | Delete | Export
+
+Filters & Search:
+  - Search by name/email/company
+  - Filter: Stage | Assigned | Source | Score range | Date range | Tags
+
+Import/Export:
+  - Import CSV (with field mapping UI)
+  - Export filtered leads as CSV
+
+Lead Scoring Rules (simple engine):
+  - DM received: +10
+  - Replied to message: +15
+  - Clicked link: +20
+  - Visited pricing page: +30
+  - Multiple interactions in 1 week: +25
+
+API Endpoints:
+  GET    /api/leads?stage=&assignedTo=&search=&page=
+  POST   /api/leads
+  PUT    /api/leads/:id
+  DELETE /api/leads/:id
+  GET    /api/leads/:id/timeline
+  POST   /api/leads/:id/timeline      { type, content }
+  POST   /api/leads/import            (multipart CSV)
+  GET    /api/leads/export?format=csv
+  GET    /api/leads/stats             → counts per stage
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+⚡ PHASE 10: AUTOMATION WORKFLOW BUILDER
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Workflow List Page:
+  - Cards: Workflow name | Status toggle | Trigger type | Run count | Last run | Actions
+  - Template library: 8 pre-built templates
+    "Auto-assign negative mentions" | "Weekly performance email"
+    "New DM → Create lead" | "Failed post → Notify team"
+    "Spike alert → Slack webhook" | "Lead won → Celebration notification"
+    "Approval reminder after 24h" | "Monthly report auto-send"
+
+Workflow Builder (modal or separate page):
+  Three sections in a card layout:
+
+  1. TRIGGER (click to configure):
+     Select trigger type from list:
+     - New inbox message received
+     - Post published successfully
+     - Post failed to publish
+     - New lead created
+     - Lead moves to stage [select stage]
+     - Mention spike detected (>X per hour)
+     - Inbox message contains keyword [enter keyword]
+     - Follower milestone reached (every X followers)
+     - Scheduled: daily digest at [time]
+     - New team member joined
+
+  2. CONDITIONS (optional, add up to 3):
+     Field selector + Operator + Value
+     Examples:
+     - Platform IS Instagram
+     - Sentiment IS negative
+     - Lead score GREATER THAN 50
+     - Message contains "pricing"
+     - Assigned to IS unassigned
+
+  3. ACTIONS (add multiple, executed in order):
+     - Send notification → [user selector] → [message]
+     - Assign inbox message → [user selector]
+     - Add tag → [tag name]
+     - Move lead to stage → [stage selector]
+     - Create AI draft reply (auto-generates, saves as draft in inbox)
+     - Send webhook → [URL] (POST with payload)
+     - Send email → [email] → [subject] → [body template]
+     - Add note to lead → [note text]
+     - Create internal notification for workspace
+
+  Save / Enable / Test Run buttons
+
+Automation Logs:
+  - Table: Timestamp | Workflow | Trigger | Status | Details
+  - Click row → see full execution trace
+
+API Endpoints:
+  GET    /api/automation
+  POST   /api/automation
+  PUT    /api/automation/:id
+  DELETE /api/automation/:id
+  PATCH  /api/automation/:id/toggle   { isActive }
+  POST   /api/automation/:id/test
+  GET    /api/automation/logs?workflowId=&page=
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🔗 PHASE 11: LINK IN BIO BUILDER
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Layout: Editor (left 60%) | Phone preview (right 40%)
+
+Editor Panel:
+  Profile section:
+    - Avatar upload
+    - Display name input
+    - Bio textarea (150 char limit)
+
+  Appearance:
+    - Template picker: [Minimal] [Bold] [Gradient] [Dark] [Neon]
+    - Background color picker
+    - Accent color picker
+    - Font style dropdown (5 options)
+
+  Links Manager:
+    - Drag-drop sorted list of link items
+    - Each link: Icon | Label | URL | Type | Active toggle | Analytics chip | Delete
+    - Add link types:
+      🔗 Custom URL | 📱 Social Profile | 📧 Email | 📞 Phone
+      🎬 YouTube Video | 🛍️ Product Card | 📝 Text Header (separator)
+    - "Add Link" button → modal with form
+
+  Settings:
+    - Public URL: socify.app/[slug] (editable slug, uniqueness check)
+    - Custom domain input
+    - SEO: meta title + description
+    - Privacy: Public / Private / Password protected
+
+Live Phone Preview:
+  - Real-time renders as you type
+  - Shows selected template with actual data
+  - Toggle between iPhone and Android frame
+
+Analytics Section (separate tab):
+  - Total page views chart (30 days)
+  - Clicks per link (bar chart)
+  - Click-through rate per link
+  - Traffic sources
+
+Published bio page (/bio/[slug]):
+  - Fully standalone, no sidebar/topbar
+  - Mobile-optimized
+  - Tracks views + clicks via /api/linkinbio/[slug]/track
+
+API Endpoints:
+  GET    /api/linkinbio
+  POST   /api/linkinbio
+  PUT    /api/linkinbio/:id
+  GET    /api/linkinbio/analytics/:id
+  GET    /bio/:slug                     ← public page (no auth)
+  POST   /api/linkinbio/:slug/track     { type: 'view'|'click', linkId }
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🤖 PHASE 12: AI SERVICE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+All AI calls go through OpenAI GPT-4o-mini (cost-effective, fast):
+
+POST /api/ai/generate-caption
+  Body: { topic, tone, platform, language, keywords, brandVoice }
+  System prompt: "You are an expert social media copywriter. Generate engaging captions."
+  Returns: { captions: [{ text, characterCount, estimatedEngagement }] }
+
+POST /api/ai/improve-caption
+  Body: { originalCaption, instruction, platform }
+  Returns: { improvedCaption, changes }
+
+POST /api/ai/hashtags
+  Body: { caption, platform, niche, targetAudience }
+  Returns: { groups: [{ type: 'niche'|'medium'|'broad', hashtags: [], estimatedReach }] }
+
+POST /api/ai/post-ideas
+  Body: { brand, niche, date, targetAudience, recentPosts[], upcomingEvents[] }
+  Returns: { ideas: [{ hook, format, caption, bestTime, hashtags }] }
+
+POST /api/ai/reply-suggestion
+  Body: { message, senderContext, brandTone, previousReplies[] }
+  Returns: { suggestions: [{ text, tone }] }
+
+POST /api/ai/sentiment
+  Body: { text }
+  Returns: { sentiment, score, reasoning, keywords }
+
+POST /api/ai/alt-text
+  Body: { imageContext, platform }
+  Returns: { altText }
+
+POST /api/ai/summarize-performance
+  Body: { metrics, period }
+  Returns: { summary, insights[], recommendations[] }
+
+Error handling: if OpenAI key not set → return realistic mock AI responses
+so the UI remains fully functional for demo purposes.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+👥 PHASE 13: TEAM & SETTINGS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Settings pages (tabbed):
+
+Profile Tab:
+  - Avatar upload, name, email (with email verification flow)
+  - Password change form (current + new + confirm)
+  - Timezone selector
+  - Language preference
+
+Workspace Tab:
+  - Workspace name, slug (with live preview of public URL)
+  - Logo upload
+  - Brand color picker
+  - Timezone + default hashtags
+  - Danger zone: Delete workspace
+
+Team Tab:
+  - Member list: Avatar | Name | Email | Role | Joined date | Actions
+  - Invite by email (sends invite link, creates pending member)
+  - Role assignment per member (dropdown)
+  - Remove member button (with confirmation modal)
+  - Pending invites section (resend / cancel)
+
+Connected Accounts Tab:
+  - Grid of social platform cards
+  - Each card: platform icon + "Connect" or connected account details
+  - Connected: shows name, avatar, followers, last sync, "Disconnect" button
+  - Connect: OAuth flow (or mock connect dialog)
+  - Add multiple accounts of same platform
+
+Notifications Tab:
+  - Email notification preferences (toggle per type)
+  - Push notification preferences
+  - Digest frequency (daily/weekly/off)
+  - Spike alert threshold input
+
+Billing Tab:
+  - Current plan badge with features list
+  - Usage meters (posts, accounts, team members — vs plan limits)
+  - "Upgrade Plan" button (opens plan comparison modal)
+  - Plan comparison table: Free | Pro | Agency | Enterprise
+  - Billing history table (mock invoices)
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🛡️ PHASE 14: ADMIN PANEL
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Access: superadmin role only. Hidden from nav for regular users.
+
+Overview Tab:
+  Stats: Total users | Active workspaces | Posts today | API calls today
+  Charts: New signups per day (30d) | Revenue per month (mock)
+
+Users Tab:
+  Table: Avatar | Name | Email | Plan | Workspaces | Created | Last Login | Status | Actions
+  Actions per user: View | Edit | Ban | Reset Password | Impersonate
+  Search + filter by plan/status
+
+Workspaces Tab:
+  Table: Name | Owner | Plan | Members | Posts | Accounts | Created | Actions
+  Actions: View | Change Plan | Delete
+
+Feature Flags Tab:
+  - Toggle features on/off globally or per workspace
+  - e.g., AI Features, Listening, Influencers
+
+System Logs Tab:
+  Table: Timestamp | User | Action | Resource | IP | Status
+  Filter: User | Action type | Date range
+  Color coding: green=success, red=error, yellow=warning
+
+Email Logs Tab:
+  Sent emails log with status (sent/bounced/opened)
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🔔 PHASE 15: NOTIFICATIONS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+In-app (Socket.io):
+  - Bell icon with unread count badge (red dot)
+  - Notification panel (dropdown, 300px wide):
+    - Each notification: icon + title + body + time ago + "Mark read"
+    - "Mark all read" button
+    - "View all" link → /notifications page
+  - Toast notifications for real-time events (bottom-right corner)
+
+Email Notifications (nodemailer):
+  - Beautiful HTML templates for each type
+  - Weekly digest email (Monday 9AM cron job):
+    Shows past week: top posts, follower change, inbox summary, upcoming schedule
+
+Socket.io Events:
+  Server → Client:
+    'notification:new'       → new notification for user
+    'inbox:message'          → new inbox message
+    'inbox:spike'            → mention spike detected
+    'post:status_change'     → post approved/rejected/published
+    'lead:assigned'          → lead assigned to user
+
+  Client → Server:
+    'join:workspace'         → join workspace room on connect
+    'notification:read'      → mark notification as read
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🔒 SECURITY LAYER
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Every API route must implement:
+
+1. Auth middleware (verify JWT)
+2. Workspace middleware (attach workspace, verify membership)
+3. Role middleware (check permission for action)
+4. Plan limit middleware (check usage vs plan limits)
+5. Rate limiting (auth routes: 10/min, API routes: 100/min per user)
+6. Input validation (Zod schemas on every endpoint)
+7. Activity logging (every mutating action logged)
+
+Plan Limits Middleware:
+  Check before post creation: workspace.usage.postsThisMonth >= plan.limits.postsPerMonth
+  If exceeded → 403 with { code: 'PLAN_LIMIT_REACHED', upgradeUrl: '/settings/billing' }
+
+Centralized Error Handler:
+  Returns: { success: false, message: string, code: string, stack: (dev only) }
+  HTTP status codes: 400 validation | 401 auth | 403 forbidden | 404 not found | 429 rate limit | 500 server
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📊 MOCK DATA STRATEGY
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+For social platform data not available via real APIs,
+use a mockData.ts generator that produces:
+
+- 30 days of analytics data with realistic trends (not flat/random)
+- Inbox messages: variety of platforms, sentiments, message types
+- Social listening mentions: realistic usernames, content, varying sentiment
+- Lead pipeline with realistic names, companies, stages
+- Campaign metrics with plausible ROI numbers
+- Follower growth with weekend dips and weekday peaks
+
+Seed endpoint (dev only):
+  POST /api/dev/seed
+  → Populates DB with 90 days of realistic mock data for demo purposes
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🔁 EXECUTION ORDER
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Build in this exact order. Do NOT skip steps.
+
+STEP 1  → Project scaffold (folders, tsconfig, vite, tailwind, package.json)
+STEP 2  → Backend: server.ts + MongoDB connection + env config
+STEP 3  → All Mongoose models (create all at once)
+STEP 4  → Auth system (register, login, refresh, middleware)
+STEP 5  → App Shell UI (sidebar, topbar, layout, routing)
+STEP 6  → Auth pages (login, register — full design)
+STEP 7  → Dashboard overview page
+STEP 8  → Social accounts (connect/list/disconnect — mock OAuth)
+STEP 9  → Post Composer + Scheduler
+STEP 10 → Visual Content Calendar
+STEP 11 → Unified Smart Inbox (Socket.io real-time)
+STEP 12 → Analytics dashboard + charts
+STEP 13 → Social Listening module
+STEP 14 → CRM + Lead Pipeline (Kanban)
+STEP 15 → Campaign Management
+STEP 16 → AI Integration (all endpoints)
+STEP 17 → Automation Workflow Builder
+STEP 18 → Link in Bio Builder
+STEP 19 → Team settings + Approval workflows
+STEP 20 → Notifications (in-app + email)
+STEP 21 → Admin Panel
+STEP 22 → Mock data seeder
+STEP 23 → Final polish: responsive, loading states, empty states, error handling
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📤 OUTPUT FORMAT RULES
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+For every step, output:
+
+📁 /path/to/filename.ts
+```
+[complete, working, production-ready code]
+```
+[one sentence: what this file does]
+
+Rules:
+- Always show the full file path
+- Always show complete code (no "// ... rest of code")
+- No placeholder functions — implement fully
+- No TODO comments — implement it or skip it
+- Every component must render without errors
+- Import all dependencies properly
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🚀 START NOW — STEP 1
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Begin immediately with STEP 1: Project scaffold.
+
+Output:
+1. Complete folder structure (mkdir commands)
+2. Root package.json with workspaces
+3. server/package.json
+4. client/package.json
+5. tsconfig.json (both client and server)
+6. vite.config.ts
+7. tailwind.config.ts (with full custom theme using the design system above)
+8. index.css (CSS variables for the design system)
+9. .env.example
+10. server/src/config/db.ts
+11. server/src/config/env.ts
+12. server/src/server.ts (Express + Socket.io + all middleware mounted)
+
+Then immediately continue with STEP 2 without waiting.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🔁 CONTINUE RULE (CRITICAL)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+If you stop mid-step due to length limits, always show at the top:
+"⏸️ Paused at: [filename] — [step X of 23]"
+
+When user says "Continue":
+  ✅ Resume from EXACT last file
+  ✅ Continue the current step
+  ✅ Do NOT restart
+  ✅ Do NOT repeat code already written
+  ✅ Do NOT summarize what was done — just continue building

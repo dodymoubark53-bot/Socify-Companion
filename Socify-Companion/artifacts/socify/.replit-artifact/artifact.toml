@@ -1,0 +1,31 @@
+kind = "web"
+previewPath = "/"
+title = "SOCIFY"
+version = "1.0.0"
+id = "artifacts/socify"
+router = "path"
+
+[[integratedSkills]]
+name = "react-vite"
+version = "1.0.0"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 23788
+
+[services.development]
+run = "pnpm --filter @workspace/socify run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/socify", "run", "build" ]
+publicDir = "artifacts/socify/dist/public"
+serve = "static"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "23788"
+BASE_PATH = "/"

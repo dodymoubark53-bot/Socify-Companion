@@ -1,0 +1,675 @@
+# SOCIFY — Complete Replit Build Prompt
+# Copy everything below this line into Replit Agent
+
+---
+
+You are a principal full-stack engineer with 10+ years building enterprise SaaS products.
+Your task is to build SOCIFY — a production-grade Social Media Marketing (SMM) platform
+that competes with Sprout Social, Hootsuite, Agorapulse, Buffer, and Later.
+
+This is NOT a demo. NOT a mockup. NOT placeholder UI.
+Every button must work. Every page must have real data flow. Every feature must function.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🎯 PRODUCT: SOCIFY
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+SOCIFY is an all-in-one Social Media Marketing SaaS for agencies, brands, and creators.
+It includes: Unified Smart Inbox, Visual Content Calendar, AI Content Generation,
+Social Listening, CRM & Lead Pipeline, Campaign Management, Team Collaboration
+with Approval Workflows, Automation Builder, Link in Bio Builder, and full Analytics.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🎨 DESIGN SYSTEM — FOLLOW EXACTLY
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Theme: Dark SaaS — inspired by Linear, Vercel, and Raycast.
+
+Colors (use as CSS variables):
+  --bg-base:        #09090B   ← page background
+  --bg-surface:     #111113   ← sidebar, modals
+  --bg-card:        #18181B   ← cards, panels
+  --bg-hover:       #27272A   ← hover states
+  --border:         #27272A   ← all borders
+  --border-subtle:  rgba(255,255,255,0.06)
+  --text-primary:   #FAFAFA
+  --text-secondary: #A1A1AA
+  --text-muted:     #71717A
+  --accent:         #6366F1   ← indigo, primary actions
+  --accent-hover:   #4F46E5
+  --accent-subtle:  rgba(99,102,241,0.12)
+  --success:        #22C55E
+  --warning:        #F59E0B
+  --danger:         #EF4444
+  --info:           #3B82F6
+
+Typography:
+  Font: "Geist" (import from Google Fonts or use Inter as fallback)
+  Scale: 12px / 13px / 14px / 16px / 18px / 24px / 32px / 48px
+  Weights: 400 (body), 500 (labels), 600 (headings), 700 (display)
+
+Spacing: strict 8px grid (4, 8, 12, 16, 20, 24, 32, 40, 48, 64px)
+
+Border Radius:
+  --radius-sm:  6px   ← badges, tags
+  --radius-md:  8px   ← inputs, buttons
+  --radius-lg:  12px  ← cards
+  --radius-xl:  16px  ← modals, panels
+
+Shadows:
+  --shadow-sm:  0 1px 2px rgba(0,0,0,0.4)
+  --shadow-md:  0 4px 16px rgba(0,0,0,0.3)
+  --shadow-lg:  0 8px 32px rgba(0,0,0,0.4)
+  Card border: 1px solid var(--border)
+
+Motion: 150ms ease for hover/focus. 200ms ease for modals. 300ms for page transitions.
+
+Components must include:
+  ✅ Loading skeleton (animated pulse) on EVERY data fetch
+  ✅ Empty state with icon + title + subtitle + CTA button on EVERY list
+  ✅ Error state with retry button
+  ✅ Hover states on all interactive elements
+  ✅ Focus rings for accessibility (outline: 2px solid var(--accent))
+  ✅ Tooltips on icon-only buttons
+
+DO NOT USE: purple gradients on white, generic card layouts, Inter/Roboto/Arial as primary font,
+placeholder "Lorem ipsum" text anywhere, non-functional buttons.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🏗️ PROJECT STRUCTURE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+/socify
+├── /client                         # React 18 + Vite + TypeScript
+│   ├── /public
+│   │   └── /assets
+│   ├── /src
+│   │   ├── /pages
+│   │   │   ├── /auth
+│   │   │   │   ├── LoginPage.tsx
+│   │   │   │   ├── RegisterPage.tsx
+│   │   │   │   └── ForgotPasswordPage.tsx
+│   │   │   ├── DashboardPage.tsx
+│   │   │   ├── InboxPage.tsx
+│   │   │   ├── ComposerPage.tsx
+│   │   │   ├── CalendarPage.tsx
+│   │   │   ├── AnalyticsPage.tsx
+│   │   │   ├── ListeningPage.tsx
+│   │   │   ├── CRMPage.tsx
+│   │   │   ├── CampaignsPage.tsx
+│   │   │   ├── AutomationPage.tsx
+│   │   │   ├── InfluencersPage.tsx
+│   │   │   ├── LinkInBioPage.tsx
+│   │   │   ├── SettingsPage.tsx
+│   │   │   └── AdminPage.tsx
+│   │   ├── /components
+│   │   │   ├── /layout
+│   │   │   │   ├── AppShell.tsx       ← wraps all authenticated pages
+│   │   │   │   ├── Sidebar.tsx
+│   │   │   │   ├── Topbar.tsx
+│   │   │   │   └── WorkspaceSwitcher.tsx
+│   │   │   ├── /ui                    ← shadcn/ui + custom base components
+│   │   │   │   ├── Button.tsx
+│   │   │   │   ├── Input.tsx
+│   │   │   │   ├── Card.tsx
+│   │   │   │   ├── Badge.tsx
+│   │   │   │   ├── Modal.tsx
+│   │   │   │   ├── Skeleton.tsx
+│   │   │   │   ├── Avatar.tsx
+│   │   │   │   ├── Tooltip.tsx
+│   │   │   │   ├── Dropdown.tsx
+│   │   │   │   ├── Tabs.tsx
+│   │   │   │   └── Toast.tsx
+│   │   │   ├── /dashboard
+│   │   │   │   ├── StatsRow.tsx
+│   │   │   │   ├── RecentPosts.tsx
+│   │   │   │   ├── UpcomingPosts.tsx
+│   │   │   │   ├── InboxPreview.tsx
+│   │   │   │   ├── FollowerChart.tsx
+│   │   │   │   └── BestTimeCard.tsx
+│   │   │   ├── /inbox
+│   │   │   │   ├── InboxItem.tsx
+│   │   │   │   ├── InboxFilters.tsx
+│   │   │   │   ├── QuickReplyPanel.tsx
+│   │   │   │   ├── SentimentBadge.tsx
+│   │   │   │   ├── CustomerPanel.tsx
+│   │   │   │   └── SpikeAlert.tsx
+│   │   │   ├── /composer
+│   │   │   │   ├── PlatformSelector.tsx
+│   │   │   │   ├── CaptionEditor.tsx
+│   │   │   │   ├── MediaUploader.tsx
+│   │   │   │   ├── SchedulePicker.tsx
+│   │   │   │   ├── UTMBuilder.tsx
+│   │   │   │   ├── AIAssistPanel.tsx
+│   │   │   │   └── PostPreview.tsx
+│   │   │   ├── /calendar
+│   │   │   │   ├── CalendarGrid.tsx
+│   │   │   │   ├── PostDot.tsx
+│   │   │   │   ├── WeekView.tsx
+│   │   │   │   └── QueueView.tsx
+│   │   │   ├── /analytics
+│   │   │   │   ├── MetricCard.tsx
+│   │   │   │   ├── EngagementChart.tsx
+│   │   │   │   ├── PlatformBreakdown.tsx
+│   │   │   │   ├── TopPostsTable.tsx
+│   │   │   │   ├── HeatmapChart.tsx
+│   │   │   │   └── CompetitorChart.tsx
+│   │   │   ├── /crm
+│   │   │   │   ├── KanbanBoard.tsx
+│   │   │   │   ├── LeadCard.tsx
+│   │   │   │   ├── LeadModal.tsx
+│   │   │   │   └── ActivityTimeline.tsx
+│   │   │   └── /automation
+│   │   │       ├── WorkflowList.tsx
+│   │   │       ├── WorkflowBuilder.tsx
+│   │   │       ├── TriggerSelector.tsx
+│   │   │       └── ActionSelector.tsx
+│   │   ├── /hooks
+│   │   │   ├── useAuth.ts
+│   │   │   ├── useWorkspace.ts
+│   │   │   ├── usePosts.ts
+│   │   │   ├── useInbox.ts
+│   │   │   ├── useAnalytics.ts
+│   │   │   ├── useLeads.ts
+│   │   │   ├── useSocket.ts
+│   │   │   └── useNotifications.ts
+│   │   ├── /store
+│   │   │   ├── authStore.ts           ← Zustand
+│   │   │   ├── workspaceStore.ts
+│   │   │   ├── inboxStore.ts
+│   │   │   └── notificationStore.ts
+│   │   ├── /services
+│   │   │   ├── api.ts                 ← axios instance + interceptors
+│   │   │   ├── auth.service.ts
+│   │   │   ├── posts.service.ts
+│   │   │   ├── inbox.service.ts
+│   │   │   ├── analytics.service.ts
+│   │   │   ├── leads.service.ts
+│   │   │   └── ai.service.ts
+│   │   ├── /utils
+│   │   │   ├── cn.ts                  ← classnames helper
+│   │   │   ├── format.ts              ← dates, numbers, text truncate
+│   │   │   └── constants.ts
+│   │   ├── /types
+│   │   │   └── index.ts
+│   │   ├── App.tsx
+│   │   ├── main.tsx
+│   │   └── index.css
+│   ├── index.html
+│   ├── vite.config.ts
+│   ├── tailwind.config.ts
+│   └── package.json
+│
+├── /server                           # Node.js + Express + TypeScript
+│   ├── /src
+│   │   ├── /config
+│   │   │   ├── db.ts                 ← MongoDB connection
+│   │   │   ├── env.ts                ← validated env vars
+│   │   │   └── socket.ts             ← Socket.io setup
+│   │   ├── /models
+│   │   │   ├── User.ts
+│   │   │   ├── Workspace.ts
+│   │   │   ├── SocialAccount.ts
+│   │   │   ├── Post.ts
+│   │   │   ├── InboxMessage.ts
+│   │   │   ├── Campaign.ts
+│   │   │   ├── Lead.ts
+│   │   │   ├── ListeningKeyword.ts
+│   │   │   ├── ListeningMention.ts
+│   │   │   ├── Automation.ts
+│   │   │   ├── Influencer.ts
+│   │   │   ├── LinkInBio.ts
+│   │   │   ├── Notification.ts
+│   │   │   ├── AnalyticsEvent.ts
+│   │   │   └── ActivityLog.ts
+│   │   ├── /routes
+│   │   │   ├── auth.routes.ts
+│   │   │   ├── workspace.routes.ts
+│   │   │   ├── social.routes.ts
+│   │   │   ├── posts.routes.ts
+│   │   │   ├── inbox.routes.ts
+│   │   │   ├── analytics.routes.ts
+│   │   │   ├── listening.routes.ts
+│   │   │   ├── leads.routes.ts
+│   │   │   ├── campaigns.routes.ts
+│   │   │   ├── automation.routes.ts
+│   │   │   ├── influencers.routes.ts
+│   │   │   ├── linkinbio.routes.ts
+│   │   │   ├── ai.routes.ts
+│   │   │   ├── notifications.routes.ts
+│   │   │   └── admin.routes.ts
+│   │   ├── /controllers
+│   │   │   └── [one controller per route file]
+│   │   ├── /services
+│   │   │   ├── auth.service.ts
+│   │   │   ├── social.service.ts
+│   │   │   ├── post.service.ts
+│   │   │   ├── inbox.service.ts
+│   │   │   ├── analytics.service.ts
+│   │   │   ├── listening.service.ts
+│   │   │   ├── ai.service.ts
+│   │   │   ├── automation.service.ts
+│   │   │   └── notification.service.ts
+│   │   ├── /middleware
+│   │   │   ├── auth.middleware.ts      ← verify JWT
+│   │   │   ├── workspace.middleware.ts ← attach workspace to req
+│   │   │   ├── roles.middleware.ts     ← RBAC check
+│   │   │   ├── plan.middleware.ts      ← plan limits check
+│   │   │   ├── rateLimiter.ts
+│   │   │   └── errorHandler.ts
+│   │   ├── /jobs
+│   │   │   ├── postScheduler.job.ts   ← cron: publish scheduled posts
+│   │   │   ├── weeklyDigest.job.ts    ← cron: Monday email digest
+│   │   │   └── listeningSync.job.ts   ← cron: fetch new mentions
+│   │   ├── /socket
+│   │   │   ├── inbox.socket.ts
+│   │   │   └── notification.socket.ts
+│   │   └── /utils
+│   │       ├── apiResponse.ts          ← { success, data, message, meta }
+│   │       ├── asyncHandler.ts
+│   │       ├── mockData.ts             ← realistic mock data generators
+│   │       └── validators.ts
+│   ├── server.ts
+│   └── package.json
+│
+├── .env.example
+└── README.md
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+⚙️ ENVIRONMENT VARIABLES (.env.example)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+# Server
+PORT=5000
+NODE_ENV=development
+CLIENT_URL=http://localhost:5173
+
+# Database
+MONGODB_URI=mongodb+srv://...
+
+# JWT
+JWT_ACCESS_SECRET=your-super-secret-access-key-min-32-chars
+JWT_REFRESH_SECRET=your-super-secret-refresh-key-min-32-chars
+JWT_ACCESS_EXPIRES=15m
+JWT_REFRESH_EXPIRES=7d
+
+# AI
+OPENAI_API_KEY=sk-...
+
+# Email (mock/nodemailer)
+SMTP_HOST=smtp.mailtrap.io
+SMTP_PORT=2525
+SMTP_USER=
+SMTP_PASS=
+EMAIL_FROM=noreply@socify.app
+
+# Cloudinary (media uploads)
+CLOUDINARY_CLOUD_NAME=
+CLOUDINARY_API_KEY=
+CLOUDINARY_API_SECRET=
+
+# Social APIs (mock if empty)
+FACEBOOK_APP_ID=
+FACEBOOK_APP_SECRET=
+TWITTER_API_KEY=
+TWITTER_API_SECRET=
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📦 DEPENDENCIES
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+SERVER package.json:
+{
+  "dependencies": {
+    "express": "^4.18.2",
+    "mongoose": "^8.0.0",
+    "socket.io": "^4.6.0",
+    "jsonwebtoken": "^9.0.2",
+    "bcryptjs": "^2.4.3",
+    "zod": "^3.22.4",
+    "openai": "^4.20.0",
+    "nodemailer": "^6.9.7",
+    "cloudinary": "^1.41.0",
+    "multer": "^1.4.5-lts.1",
+    "express-rate-limit": "^7.1.5",
+    "helmet": "^7.1.0",
+    "morgan": "^1.10.0",
+    "cors": "^2.8.5",
+    "node-cron": "^3.0.3",
+    "dotenv": "^16.3.1",
+    "date-fns": "^3.0.0",
+    "uuid": "^9.0.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.3.2",
+    "@types/express": "^4.17.21",
+    "@types/node": "^20.10.0",
+    "@types/bcryptjs": "^2.4.6",
+    "@types/jsonwebtoken": "^9.0.5",
+    "@types/nodemailer": "^6.4.14",
+    "@types/cors": "^2.8.17",
+    "ts-node": "^10.9.2",
+    "nodemon": "^3.0.2"
+  }
+}
+
+CLIENT package.json:
+{
+  "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-router-dom": "^6.20.0",
+    "axios": "^1.6.2",
+    "zustand": "^4.4.7",
+    "@tanstack/react-query": "^5.10.0",
+    "socket.io-client": "^4.6.0",
+    "recharts": "^2.10.0",
+    "@dnd-kit/core": "^6.1.0",
+    "@dnd-kit/sortable": "^8.0.0",
+    "react-hook-form": "^7.48.2",
+    "zod": "^3.22.4",
+    "@hookform/resolvers": "^3.3.2",
+    "date-fns": "^3.0.0",
+    "framer-motion": "^10.16.5",
+    "react-hot-toast": "^2.4.1",
+    "clsx": "^2.0.0",
+    "tailwind-merge": "^2.1.0",
+    "lucide-react": "^0.298.0",
+    "@radix-ui/react-dialog": "^1.0.5",
+    "@radix-ui/react-dropdown-menu": "^2.0.6",
+    "@radix-ui/react-tooltip": "^1.0.7",
+    "@radix-ui/react-tabs": "^1.0.4",
+    "@radix-ui/react-avatar": "^1.0.4",
+    "@radix-ui/react-select": "^2.0.0",
+    "@radix-ui/react-switch": "^1.0.3",
+    "@radix-ui/react-progress": "^1.0.3"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^4.2.1",
+    "typescript": "^5.3.2",
+    "tailwindcss": "^3.3.6",
+    "postcss": "^8.4.32",
+    "autoprefixer": "^10.4.16",
+    "vite": "^5.0.8"
+  }
+}
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🗄️ DATABASE SCHEMAS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+// User.ts
+{
+  name: String,
+  email: { type: String, unique: true, lowercase: true },
+  password: String,  // bcrypt hashed
+  avatar: String,
+  role: { type: String, enum: ['superadmin', 'user'], default: 'user' },
+  workspaces: [{ workspace: ObjectId, role: String }],
+  currentWorkspace: ObjectId,
+  isEmailVerified: Boolean,
+  lastLoginAt: Date,
+  refreshToken: String,
+  createdAt: Date
+}
+
+// Workspace.ts
+{
+  name: String,
+  slug: { type: String, unique: true },
+  logo: String,
+  plan: { type: String, enum: ['free', 'pro', 'agency', 'enterprise'], default: 'free' },
+  owner: ObjectId → User,
+  members: [{
+    user: ObjectId → User,
+    role: { type: String, enum: ['owner', 'admin', 'editor', 'viewer', 'analyst'] },
+    joinedAt: Date
+  }],
+  settings: {
+    timezone: { type: String, default: 'UTC' },
+    brandColor: String,
+    defaultHashtags: [String],
+    notificationPrefs: {
+      emailDigest: Boolean,
+      spikeAlerts: Boolean,
+      postFailures: Boolean
+    }
+  },
+  usage: {
+    postsThisMonth: Number,
+    socialAccountsCount: Number,
+    teamMembersCount: Number
+  },
+  createdAt: Date
+}
+
+// SocialAccount.ts
+{
+  workspace: ObjectId → Workspace,
+  platform: { type: String, enum: ['facebook','instagram','twitter','linkedin','tiktok','youtube','pinterest','threads','googlebusiness'] },
+  accountType: { type: String, enum: ['page', 'profile', 'business'] },
+  name: String,
+  handle: String,
+  avatar: String,
+  accessToken: String,
+  refreshToken: String,
+  tokenExpiry: Date,
+  externalId: String,
+  isActive: Boolean,
+  followers: Number,
+  following: Number,
+  stats: {
+    avgEngagementRate: Number,
+    postsCount: Number,
+    avgReach: Number
+  },
+  lastSyncAt: Date,
+  connectedAt: Date
+}
+
+// Post.ts
+{
+  workspace: ObjectId → Workspace,
+  author: ObjectId → User,
+  approvedBy: ObjectId → User,
+  platforms: [{
+    name: String,
+    accountId: ObjectId → SocialAccount,
+    customCaption: String,
+    platformPostId: String,
+    publishedAt: Date,
+    metrics: {
+      reach: Number, impressions: Number, likes: Number,
+      comments: Number, shares: Number, clicks: Number, saves: Number
+    }
+  }],
+  caption: String,
+  mediaUrls: [String],
+  mediaType: { type: String, enum: ['image','video','carousel','text','reel','story'] },
+  firstComment: String,
+  hashtags: [String],
+  mentions: [String],
+  location: String,
+  utmParams: { source: String, medium: String, campaign: String, content: String },
+  scheduledAt: Date,
+  timezone: String,
+  status: {
+    type: String,
+    enum: ['draft','pending_approval','revision_requested','approved','scheduled','publishing','published','failed','archived'],
+    default: 'draft'
+  },
+  approvalComment: String,
+  campaign: ObjectId → Campaign,
+  contentCategory: String,
+  tags: [String],
+  isRecurring: Boolean,
+  recurrenceRule: String,    // cron expression
+  aiGenerated: Boolean,
+  generationPrompt: String,
+  totalReach: Number,        // aggregated across platforms
+  totalEngagement: Number,   // aggregated
+  createdAt: Date
+}
+
+// InboxMessage.ts
+{
+  workspace: ObjectId → Workspace,
+  platform: String,
+  socialAccount: ObjectId → SocialAccount,
+  type: { type: String, enum: ['dm', 'comment', 'mention', 'review', 'reply'] },
+  externalId: String,
+  externalPostId: String,
+  sender: {
+    name: String,
+    handle: String,
+    avatar: String,
+    profileUrl: String,
+    externalId: String
+  },
+  content: String,
+  mediaUrls: [String],
+  sentiment: { type: String, enum: ['positive', 'neutral', 'negative', 'mixed'] },
+  sentimentScore: Number,    // -1 to 1
+  status: { type: String, enum: ['unread','read','in_progress','done','snoozed','spam'], default: 'unread' },
+  assignedTo: ObjectId → User,
+  internalNotes: [{ user: ObjectId, text: String, createdAt: Date }],
+  tags: [String],
+  snoozedUntil: Date,
+  isStarred: Boolean,
+  parentMessageId: String,
+  receivedAt: Date,
+  repliedAt: Date,
+  repliedBy: ObjectId → User
+}
+
+// Lead.ts
+{
+  workspace: ObjectId → Workspace,
+  name: String,
+  email: String,
+  phone: String,
+  company: String,
+  position: String,
+  avatar: String,
+  socialProfiles: [{
+    platform: String,
+    handle: String,
+    profileUrl: String
+  }],
+  source: { type: String, enum: ['manual', 'inbox', 'form', 'csv_import', 'campaign'] },
+  sourceId: ObjectId,     // InboxMessage or Campaign that generated lead
+  stage: {
+    type: String,
+    enum: ['new', 'contacted', 'qualified', 'proposal', 'negotiation', 'won', 'lost'],
+    default: 'new'
+  },
+  score: { type: Number, default: 0 },
+  assignedTo: ObjectId → User,
+  tags: [String],
+  customFields: Map,
+  notes: String,
+  timeline: [{
+    type: { type: String, enum: ['note', 'call', 'email', 'stage_change', 'message', 'system'] },
+    content: String,
+    user: ObjectId → User,
+    createdAt: Date
+  }],
+  attachments: [String],
+  nextFollowUpDate: Date,
+  estimatedValue: Number,
+  currency: String,
+  wonAt: Date,
+  lostReason: String,
+  createdAt: Date
+}
+
+// Campaign.ts
+{
+  workspace: ObjectId → Workspace,
+  name: String,
+  description: String,
+  objective: { type: String, enum: ['awareness', 'engagement', 'leads', 'sales', 'traffic'] },
+  status: { type: String, enum: ['draft', 'active', 'paused', 'completed', 'archived'], default: 'draft' },
+  startDate: Date,
+  endDate: Date,
+  budget: Number,
+  currency: String,
+  targetPlatforms: [String],
+  targetAudience: {
+    ageRange: String,
+    gender: String,
+    locations: [String],
+    interests: [String]
+  },
+  posts: [ObjectId → Post],
+  leads: [ObjectId → Lead],
+  team: [ObjectId → User],
+  metrics: {
+    totalReach: Number,
+    totalImpressions: Number,
+    totalEngagement: Number,
+    totalClicks: Number,
+    leadsGenerated: Number,
+    conversions: Number,
+    revenue: Number,
+    roi: Number
+  },
+  color: String,
+  tags: [String],
+  createdAt: Date
+}
+
+// ListeningMention.ts
+{
+  workspace: ObjectId → Workspace,
+  keyword: ObjectId → ListeningKeyword,
+  platform: String,
+  author: { name: String, handle: String, avatar: String, followers: Number },
+  content: String,
+  url: String,
+  sentiment: String,
+  sentimentScore: Number,
+  engagement: { likes: Number, shares: Number, comments: Number, views: Number },
+  reach: Number,
+  location: String,
+  language: String,
+  isSpike: Boolean,
+  publishedAt: Date,
+  fetchedAt: Date
+}
+
+// Automation.ts
+{
+  workspace: ObjectId → Workspace,
+  name: String,
+  description: String,
+  isActive: Boolean,
+  trigger: {
+    type: { type: String, enum: ['new_message','post_published','post_failed','new_lead','lead_stage_change','mention_spike','keyword_match','follower_milestone','scheduled'] },
+    conditions: [{
+      field: String,
+      operator: { type: String, enum: ['equals','contains','greater_than','less_than','in'] },
+      value: Mixed
+    }]
+  },
+  actions: [{
+    type: { type: String, enum: ['send_notification','assign_message','add_tag','move_lead_stage','create_draft_reply','webhook','send_email','add_note'] },
+    config: Map
+  }],
+  runCount: Number,
+  lastRunAt: Date,
+  createdAt: Date
+}
+
+// LinkInBio.ts
+{
+  workspace: ObjectId → Workspace,
+  user: ObjectId → User,
+  slug: { type: String, unique: true },
+  title: String,
+  bio: String,
+  avatar: String,
+  backgroundColor: String,
+  accentColor: String,
+  fontStyle: String,
+  templa
